@@ -1,0 +1,171 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-h) + 2rem) 2rem 2rem 2rem;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-glow-1, .hero-glow-2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: 0;
+  animation: pulse-glow 8s infinite alternate ease-in-out;
+}
+
+.hero-glow-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%);
+  top: 10%;
+  left: 10%;
+}
+
+.hero-glow-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+  bottom: 0%;
+  right: 5%;
+  animation-delay: -4s;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cyan);
+  margin-bottom: 2rem;
+  animation: hero-enter 1s var(--ease) forwards;
+}
+
+.hero-badge .dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--cyan);
+  animation: blink 2s infinite;
+}
+
+.hero-headline {
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  animation: hero-enter 1s var(--ease) 0.1s both;
+}
+
+.hero-headline .accent {
+  background: linear-gradient(90deg, var(--cyan), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtext {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+  animation: hero-enter 1s var(--ease) 0.2s both;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cyan);
+  background: transparent;
+  border: 2px solid var(--cyan);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  position: relative;
+  overflow: hidden;
+  animation: hero-enter 1s var(--ease) 0.3s both;
+}
+
+.hero-cta:hover {
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.brain-visual {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: hero-enter 1s var(--ease) 0.4s both;
+}
+
+.brain-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed var(--cyan);
+  opacity: 0.3;
+}
+
+.brain-ring.r1 {
+  width: 200px;
+  height: 200px;
+  animation: spin-ring 15s linear infinite;
+  border-top: 1px solid var(--cyan2);
+}
+
+.brain-ring.r2 {
+  width: 150px;
+  height: 150px;
+  animation: spin-ring 20s linear infinite reverse;
+  border-bottom: 1px solid var(--violet);
+}
+
+.brain-ring.r3 {
+  width: 100px;
+  height: 100px;
+  animation: spin-ring 10s linear infinite;
+  border-left: 1px solid var(--gold);
+}
+
+.brain-core {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--cyan);
+  animation: core-pulse 3s infinite ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .brain-visual {
+    margin-top: 3rem;
+    width: 200px;
+    height: 200px;
+  }
+}

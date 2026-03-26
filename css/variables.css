@@ -1,0 +1,27 @@
+:root {
+  --navy: #050d1f;
+  --deep: #091428;
+  --card: #0c1a30;
+  --cyan: #00d4ff;
+  --cyan2: #00ffe0;
+  --gold: #f5c842;
+  --violet: #7c3aed;
+  --text: #e2eaf5;
+  --muted: #7a90b0;
+  --glass: rgba(255,255,255,0.05);
+  --border: rgba(0,212,255,0.15);
+  --nav-h: 72px;
+  --ease: cubic-bezier(.4,0,.2,1);
+  --spring: cubic-bezier(.34,1.56,.64,1);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  background-color: var(--navy);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+}

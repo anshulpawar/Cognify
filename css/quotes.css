@@ -1,0 +1,70 @@
+.quotes {
+  padding: 6rem 2rem;
+  background: linear-gradient(180deg, var(--deep) 0%, #0a1020 100%);
+  text-align: center;
+}
+
+.quotes-carousel {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quote-slide {
+  display: none;
+}
+
+.quote-slide.active {
+  display: block;
+  animation: quote-in 0.8s var(--ease) forwards;
+}
+
+.quote-mark {
+  font-family: 'Syne', sans-serif;
+  font-size: 6rem;
+  line-height: 1;
+  color: rgba(0, 212, 255, 0.15);
+  margin-bottom: -1.5rem;
+}
+
+.quote-text {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+.quote-author {
+  font-size: 1.1rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.quote-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 3rem;
+}
+
+.dot-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+
+.dot-btn.active {
+  background: var(--cyan);
+  transform: scale(1.4);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
