@@ -225,7 +225,7 @@
       <!-- GROUP 1: Mathematical Reasoning -->
       <div class="skill-group-label">🔢 Mathematical Reasoning</div>
       <div class="skills-grid">
-        <div class="skill-card c-puzzle" onclick="openSkill('puzzles')">
+        <div class="skill-card c-puzzle" id="skCard-puzzles" onclick="openSkill('puzzles')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
@@ -239,7 +239,7 @@
           <span class="badge badge-gold">4 Lessons</span>
         </div>
 
-        <div class="skill-card c-logic" onclick="openSkill('reasoning')">
+        <div class="skill-card c-logic" id="skCard-reasoning" onclick="openSkill('reasoning')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
@@ -257,7 +257,7 @@
       <!-- GROUP 2: Memory Recall -->
       <div class="skill-group-label" style="margin-top:28px;">🧠 Memory Recall</div>
       <div class="skills-grid">
-        <div class="skill-card c-code" onclick="openSkill('matchcard')">
+        <div class="skill-card c-code" id="skCard-matchcard" onclick="openSkill('matchcard')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
@@ -271,7 +271,7 @@
           <span class="badge badge-cyan">4 Lessons</span>
         </div>
 
-        <div class="skill-card c-shloka" onclick="openSkill('wordrecall')">
+        <div class="skill-card c-shloka" id="skCard-wordrecall" onclick="openSkill('wordrecall')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
@@ -614,154 +614,43 @@
 
     <!-- Hero Banner -->
     <div class="dash-hero">
+      <div style="font-size: 14px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700;">🛡️ Parental Dashboard</div>
       <div class="dash-name">Welcome back, <span id="dashName">Learner</span>!</div>
       <div class="dash-quote" id="dashQuote">"Every expert was once a beginner. Keep going!"</div>
-      <div class="dash-streak">
-        <span class="streak-fire">🔥</span>
-        <div>
-          <div class="streak-n">3</div>
-          <div class="streak-label">Day Streak</div>
-        </div>
-      </div>
     </div>
 
-    <!-- Goal Ring -->
-    <div class="goal-card">
-      <div class="goal-ring-wrap">
-        <svg width="72" height="72" viewBox="0 0 72 72">
-          <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
-          <circle cx="36" cy="36" r="30" fill="none" stroke="url(#ringGrad)" stroke-width="8"
-            stroke-dasharray="188.5" stroke-dashoffset="63" stroke-linecap="round"
-            transform="rotate(-90 36 36)" style="transition:stroke-dashoffset 1.2s"/>
-          <defs>
-            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#00d4ff"/>
-              <stop offset="100%" stop-color="#00ffe0"/>
-            </linearGradient>
-          </defs>
-          <text x="36" y="41" text-anchor="middle" font-family="Syne" font-weight="800" font-size="15" fill="#00d4ff">2/3</text>
-        </svg>
-      </div>
-      <div class="goal-text">
-        <div class="goal-title">Today's Goal</div>
-        <div class="goal-sub">2 of 3 activities completed!</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <span class="badge badge-cyan">✅ Flashcards</span>
-          <span class="badge badge-cyan">✅ Quiz</span>
-        </div>
-      </div>
+    <!-- Cognitive Insights -->
+    <div class="section-title" style="margin-bottom:14px">Cognitive Insights 💡</div>
+    <div id="parentalInsights" style="margin-bottom: 30px;">
+      <!-- Populated dynamically by JS -->
     </div>
 
     <!-- Stats -->
     <div class="section-title" style="margin-bottom:14px">Neural Progress 📊</div>
-    <div class="stats-grid">
-      <div class="stat-box">
-        <span class="stat-ico">🧠</span>
-        <span class="stat-n cyan" id="sSk">4</span>
-        <span class="stat-l">Skills Explored</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-ico">⭐</span>
-        <span class="stat-n gold" id="sStars">28</span>
-        <span class="stat-l">Stars Collected</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-ico">🔥</span>
-        <span class="stat-n violet" id="sStr">3</span>
-        <span class="stat-l">Day Streak</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-ico">✅</span>
-        <span class="stat-n mint" id="sAct">14</span>
-        <span class="stat-l">Activities Done</span>
-      </div>
-    </div>
+    <div class="stats-grid" id="dashStats"></div>
+
+    <!-- Cognitive Profile -->
+    <div class="section-title" style="margin-bottom:14px">Cognitive Profile ⚖️</div>
+    <div id="cognitiveProfile"></div>
 
     <!-- Weekly Chart -->
     <div class="card" style="margin:24px 0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
         <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700">This Week 📅</div>
-        <span class="badge badge-cyan">7 days</span>
+        <span class="badge badge-cyan">Real-Time Data</span>
       </div>
       <div class="week-chart" id="weekChart"></div>
     </div>
 
     <!-- Skill Progress -->
     <div class="section-title" style="margin-bottom:14px">Skill Progress 📚</div>
-    <div class="sk-prog-item">
-      <span class="sk-prog-ico">🎵</span>
-      <div class="sk-prog-info">
-        <div class="sk-prog-name">Music</div>
-        <div class="progress-track"><div class="progress-fill" style="width:60%"></div></div>
-      </div>
-      <span class="sk-prog-pct">60%</span>
-    </div>
-    <div class="sk-prog-item">
-      <span class="sk-prog-ico">💻</span>
-      <div class="sk-prog-info">
-        <div class="sk-prog-name">Simple Coding</div>
-        <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
-      </div>
-      <span class="sk-prog-pct">50%</span>
-    </div>
-    <div class="sk-prog-item">
-      <span class="sk-prog-ico">🛒</span>
-      <div class="sk-prog-info">
-        <div class="sk-prog-name">Daily Life Skills</div>
-        <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
-      </div>
-      <span class="sk-prog-pct">75%</span>
-    </div>
-    <div class="sk-prog-item">
-      <span class="sk-prog-ico">🧮</span>
-      <div class="sk-prog-info">
-        <div class="sk-prog-name">Vedic Math</div>
-        <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
-      </div>
-      <span class="sk-prog-pct">40%</span>
-    </div>
+    <div id="dashSkills"></div>
 
     <div class="glow-line"></div>
 
-    <!-- Badges -->
-    <div class="section-title" style="margin-bottom:14px">Achievement Badges 🏆</div>
-    <div class="badges-grid">
-      <div class="badge-box earned">
-        <span class="badge-ico">🌟</span>
-        <div class="badge-name">First Lesson!</div>
-        <div class="badge-sub">You started learning</div>
-      </div>
-      <div class="badge-box earned">
-        <span class="badge-ico">🔥</span>
-        <div class="badge-name">3-Day Streak</div>
-        <div class="badge-sub">Consistency wins!</div>
-      </div>
-      <div class="badge-box">
-        <span class="badge-ico">🧠</span>
-        <div class="badge-name">Memory Master</div>
-        <div class="badge-sub">Almost there!</div>
-      </div>
-    </div>
-
-    <!-- Activity -->
+    <!-- Recent Activity -->
     <div class="section-title" style="margin-bottom:14px">Recent Activity 📋</div>
-    <div id="actFeed">
-      <div class="act-item">
-        <div class="act-dot">🎵</div>
-        <div class="act-body"><strong>Completed Music Level 2</strong><br><span>Note matching — well done!</span></div>
-        <div class="act-time">2h ago</div>
-      </div>
-      <div class="act-item">
-        <div class="act-dot">⭐</div>
-        <div class="act-body"><strong>Earned 5 Stars in Quiz</strong><br><span>Memory Zone Quiz</span></div>
-        <div class="act-time">Today</div>
-      </div>
-      <div class="act-item">
-        <div class="act-dot">🛒</div>
-        <div class="act-body"><strong>Started Daily Life Skills</strong><br><span>Grocery Budget — Lesson 1</span></div>
-        <div class="act-time">Yesterday</div>
-      </div>
-    </div>
+    <div id="actFeed"></div>
 
   </div>
 </div>
@@ -778,7 +667,7 @@
     <span class="nav-icon">🎯</span><span class="nav-label">Practice</span>
   </button>
   <button class="nav-btn" id="nav-dashboard" onclick="goPage('dashboard')">
-    <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+    <span class="nav-icon">🛡️</span><span class="nav-label">Parental</span>
   </button>
 </nav>
 
