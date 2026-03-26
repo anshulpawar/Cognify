@@ -234,51 +234,121 @@ function onFileUpload(e){
 }
 
 /* ═══════ AI HELPER ═══════ */
-const MOCK={
-  explain:["Here's how it works:\n1. Think of it like a storage box 📦\n2. The box holds one piece of info at a time\n3. Repeat to make the box bigger\n4. Practice every day to keep it strong!"],
-  shorten:["Short version: Practice a little every day. That builds the strongest memories! 🎯"],
-  example:["Real example:\nLearning to ride a bike 🚲 — hard at first, automatic after practice. That is exactly how memory works!"],
-  quiz:["Quiz time!\n\nWhat helps memory the MOST?\nA) Sleeping well 😴\nB) Watching TV 📺\nC) Eating sugar 🍭\nD) Stressing out 😰\n\nHint: Your brain fixes itself during this activity!"],
-  ask:["Great question! 🌟\n1. Your brain makes tiny paths when you learn\n2. Repeating walks that path again and again\n3. The path gets stronger each time\n4. That is how memory is built!"]
-};
 function getInput(){return mode==='text'?document.getElementById('aiInput').value:mode==='voice'?document.getElementById('voiceInput').value:'';}
+
 async function askAI(type){
   const loading=document.getElementById('aiLoading');
   const resp=document.getElementById('aiResponse');
   const txt=document.getElementById('aiRespText');
-  const input=getInput();
+  
   loading.style.display='flex';resp.style.display='none';
-  const prompts={
-    explain:`Explain this simply for a student with learning difficulties: "${input||'memory'}". Use max 4 sentences, numbered steps.`,
-    shorten:`Make this very short (2-3 sentences) for a young learner: "${input||'memory'}"`,
-    example:`Give one simple real-life example to explain: "${input||'memory'}". Under 50 words. Relatable.`,
-    quiz:`Create a simple 4-option MCQ about: "${input||'memory'}". Label A B C D. State the answer at end.`,
-    ask:`Answer simply for a student who finds learning hard: "${input||'how does memory work?'}". Short sentences. Encouraging.`
-  };
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:'Kind, patient AI tutor. Grade 3-4 reading level. Short sentences. Encouraging. No jargon. Under 150 words.',messages:[{role:'user',content:prompts[type]}]})});
-    if(!res.ok)throw new Error();
-    const d=await res.json();renderAIResp(d.content[0].text);
-  }catch{
-    await new Promise(r=>setTimeout(r,800));
-    renderAIResp((MOCK[type]||MOCK.ask)[0]);
+
+  try {
+    let endpoint = 'http://localhost:3000/api/explain';
+    let options = { method: 'POST' };
+
+    if (mode === 'image') {
+      endpoint = 'http://localhost:3000/api/image-explain';
+      const file = document.getElementById('imgFile').files[0];
+      if (!file) throw new Error("Please select an image first.");
+      const formData = new FormData();
+      formData.append('image', file);
+      options.body = formData;
+    } else if (mode === 'file') {
+      endpoint = 'http://localhost:3000/api/file-explain';
+      const file = document.getElementById('docFile').files[0];
+      if (!file) throw new Error("Please select a file first.");
+      const formData = new FormData();
+      formData.append('file', file);
+      options.body = formData;
+    } else {
+      const input = getInput() || 'How does memory work?';
+      
+      if (mode === 'voice' && type === 'explain') {
+          endpoint = 'http://localhost:3000/api/voice-explain';
+          options.headers = { 'Content-Type': 'application/json' };
+          options.body = JSON.stringify({ transcript: input });
+      } else {
+          if (type === 'explain' || type === 'ask') endpoint = 'http://localhost:3000/api/explain';
+          else if (type === 'shorten') endpoint = 'http://localhost:3000/api/shorten';
+          else if (type === 'example') endpoint = 'http://localhost:3000/api/example';
+          else if (type === 'quiz') endpoint = 'http://localhost:3000/api/quiz';
+          else if (type === 'flashcard') endpoint = 'http://localhost:3000/api/flashcard';
+
+          options.headers = { 'Content-Type': 'application/json' };
+          options.body = JSON.stringify({ topic: input });
+      }
+    }
+
+    const res = await fetch(endpoint, options);
+    if (!res.ok) {
+        const errData = await res.json().catch(()=>({}));
+        throw new Error(errData.error || "Failed to fetch from backend");
+    }
+    const data = await res.json();
+    
+    formatBackendResponse(data, type);
+
+  } catch (err) {
+    console.error(err);
+    loading.style.display='none';
+    resp.style.display='block';
+    txt.innerHTML = `<p style="color:#ff5e8f;font-size:14px">Error: ${err.message}. Ensure backend is running! 🚀</p>`;
   }
 }
-function renderAIResp(text){
+
+function formatBackendResponse(data, type) {
   const loading=document.getElementById('aiLoading');
   const resp=document.getElementById('aiResponse');
   const txt=document.getElementById('aiRespText');
-  loading.style.display='none';resp.style.display='block';
-  let html='',sc=0;
-  text.split('\n').filter(l=>l.trim()).forEach(line=>{
-    if(/^\d+[\.\)]/.test(line.trim())){
-      sc++;const t=line.replace(/^\d+[\.\)]\s*/,'');
-      html+=`<div class="step-item"><div class="step-n">${sc}</div><div style="font-size:14px;line-height:1.7;font-weight:300">${t}</div></div>`;
-    } else {
-      html+=`<p style="margin-bottom:8px;font-size:14px;line-height:1.8;font-weight:300">${line}</p>`;
+  loading.style.display='none';
+  resp.style.display='block';
+
+  let html = '';
+
+  if (data.explanation) {
+    html += `<p style="margin-bottom:8px;font-size:14px;line-height:1.8;font-weight:300">${data.explanation}</p>`;
+    if (data.keyPoints && data.keyPoints.length > 0) {
+      data.keyPoints.forEach((kp, i) => {
+        html += `<div class="step-item"><div class="step-n">${i+1}</div><div style="font-size:14px;line-height:1.7;font-weight:300">${kp}</div></div>`;
+      });
     }
-  });
-  txt.innerHTML=html;showToast('✨ Answer ready!');
+    if (data.funFact) {
+       html += `<p style="margin-top:12px;font-size:14px;color:var(--gold);font-style:italic">✨ ${data.funFact}</p>`;
+    }
+  } else if (data.summary) {
+    html += `<p style="margin-bottom:8px;font-size:14px;line-height:1.8;font-weight:300">${data.summary}</p>`;
+  } else if (data.examples) {
+    data.examples.forEach((ex, i) => {
+      html += `<div class="step-item"><div class="step-n">💡</div><div style="font-size:14px;line-height:1.7;font-weight:300">${ex}</div></div>`;
+    });
+  } else if (data.questions) {
+    html += `<div class="section-title" style="margin-bottom:12px;font-size:16px"><span style="color:var(--cyan)">⚡ Quiz Generated!</span> Try answering:</div>`;
+    data.questions.forEach((q, i) => {
+      html += `<div style="background:rgba(0,212,255,0.05);padding:12px;border-radius:10px;margin-bottom:12px;border-left:3px solid var(--cyan)">`;
+      html += `<p style="font-weight:bold;margin-bottom:8px">${i+1}. ${q.question} ${q.emoji || ''}</p>`;
+      const letters = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, j) => {
+        const isCorrect = j === q.correct;
+        html += `<div style="font-size:13px;margin-bottom:4px;color:${isCorrect?'var(--cyan)':'rgba(255,255,255,0.7)'}">
+                   ${isCorrect ? '✨' : '⚪'} <strong>${letters[j]}</strong>: ${opt}
+                 </div>`;
+      });
+      if(q.funFact) html += `<div style="font-size:12px;color:var(--gold);margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:6px"><em>${q.funFact}</em></div>`;
+      html += `</div>`;
+    });
+  } else if (data.flashcards) {
+    html += `<div class="section-title" style="margin-bottom:12px;font-size:16px"><span style="color:var(--rose)">📇 Flashcards Generated!</span></div>`;
+    data.flashcards.forEach((fc, i) => {
+      html += `<div style="background:rgba(255,94,143,0.05);padding:12px;border-radius:10px;margin-bottom:12px;border-left:3px solid var(--rose)">`;
+      html += `<div style="font-weight:bold;margin-bottom:6px">${fc.emoji} ${fc.front}</div>`;
+      html += `<div style="font-size:13px;color:rgba(255,255,255,0.8);font-style:italic">👉 ${fc.back}</div>`;
+      html += `</div>`;
+    });
+  }
+
+  txt.innerHTML = html || `<p style="font-size:14px">Answer processed successfully!</p>`;
+  showToast('✨ Answer ready!');
 }
 
 /* ═══════ HOME FLASHCARD ═══════ */
