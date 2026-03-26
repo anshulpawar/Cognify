@@ -38,7 +38,106 @@ document.querySelectorAll('button,a,.skill-card,.fc-wrap,.big-fc').forEach(el=>{
   el.addEventListener('mouseleave',()=>{cur.style.transform='';curR.style.transform='';curR.style.borderColor='';});
 });
 
-/* ═══════ NAVIGATION ═══════ */
+/* ═══════ Progress Manager ═══════ */
+const ProgressManager = {
+  data: {
+    skillsExplored: 0,
+    starsCollected: 0,
+    dayStreak: 0,
+    activitiesDone: 0,
+    recentActivity: [],
+    skillProgress: {}
+  },
+  async load() {
+    try {
+      const r = await fetch('http://localhost:3000/api/progress');
+      if (r.ok) {
+        this.data = await r.json();
+      }
+      this.updateUI();
+    } catch(e) { console.warn('Progress load failed', e); }
+  },
+  async save(updates) {
+    if(!updates) return;
+    
+    // Optimistic local update
+    if (updates.skillsExplored) this.data.skillsExplored = (this.data.skillsExplored || 0) + updates.skillsExplored;
+    if (updates.starsCollected) this.data.starsCollected = (this.data.starsCollected || 0) + updates.starsCollected;
+    if (updates.activitiesDone) this.data.activitiesDone = (this.data.activitiesDone || 0) + updates.activitiesDone;
+    
+    if (updates.skillId && updates.completedCount !== undefined) {
+      if (!this.data.skillProgress) this.data.skillProgress = {};
+      if (!this.data.skillProgress[updates.skillId] || updates.completedCount > this.data.skillProgress[updates.skillId]) {
+        this.data.skillProgress[updates.skillId] = updates.completedCount;
+      }
+    }
+    
+    if (updates.activity) {
+      if (!this.data.recentActivity) this.data.recentActivity = [];
+      this.data.recentActivity.unshift({
+        emoji: updates.activity.emoji || '📝',
+        title: updates.activity.title || 'Activity',
+        desc: updates.activity.desc || '',
+        time: new Date().toISOString()
+      });
+      if (this.data.recentActivity.length > 5) this.data.recentActivity.pop();
+      
+      const today = new Date().toISOString().split('T')[0];
+      if (!this.data.weeklyActivity) this.data.weeklyActivity = {};
+      this.data.weeklyActivity[today] = (this.data.weeklyActivity[today] || 0) + 1;
+    }
+    
+    // Instantly update the UI
+    this.updateUI();
+
+    try {
+      const r = await fetch('http://localhost:3000/api/progress', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(updates)
+      });
+      if (r.ok) {
+        this.data = await r.json();
+        this.updateUI(); // run again to sync exactly with server truth
+      }
+    } catch(e) { console.warn('Progress save failed - using local optimistic data', e); }
+  },
+  updateUI() {
+    renderDashboard();
+    updateSkillsPage();
+  }
+};
+
+function updateSkillsPage() {
+  const data = ProgressManager.data;
+  if (!data.skillProgress) return;
+  Object.keys(skillDB).forEach(key => {
+    const card = document.getElementById('skCard-' + key);
+    if (!card) return;
+    const s = skillDB[key];
+    const completed = data.skillProgress[key] || 0;
+    const total = s.steps.length;
+    
+    const ring = card.querySelector('.ring-fill');
+    if (ring) {
+      const offset = 100.5 - ((completed / total) * 100.5);
+      ring.style.strokeDashoffset = offset;
+    }
+
+    const dotsDiv = card.querySelector('.sk-dots');
+    if (dotsDiv) {
+      let dotsHtml = '';
+      for (let i = 0; i < total; i++) {
+        dotsHtml += `<div class="sk-dot ${i < completed ? 'on' : ''}"></div>`;
+      }
+      dotsDiv.innerHTML = dotsHtml;
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => ProgressManager.load());
+
+
 function goPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -206,27 +305,8 @@ function ansHome(idx){
 
 /* ═══════ SKILLS ═══════ */
 const skillDB={
-  music:{name:'Music',emoji:'🎵',steps:[
-    {title:'What is Rhythm?',concept:'Rhythm is the pattern of beats in music. Think of it like footsteps — left, right, left, right! Some beats are strong, some are soft. Together they make a pattern.',analogy:'Think of it like a heartbeat — boom, boom, boom. That steady beat IS rhythm!',visual:'🥁  🎶  🥁  🎶',type:'choice',q:'Which of these is a rhythm?',opts:['Random noise 🔀','Boom-Boom-Clap 🥁','One note 🎵','Silence 🤫'],correct:1},
-    {title:'High and Low Sounds',concept:'Sounds can be high or low. A bird chirps HIGH. A drum beats LOW. In music, this is called pitch. You can train your ear to hear the difference!',analogy:'High notes = jumping up. Low notes = sitting down!',visual:'🐦 HIGH  vs  🥁 LOW',type:'choice',q:'A dog bark has what kind of pitch?',opts:['Very high','Medium-low 🔽','Same as a flute','No pitch at all'],correct:1},
-    {title:'Fast and Slow Music',concept:'Music can be fast (like running) or slow (like sleeping). This is called tempo. Happy songs are often fast. Lullabies are slow. Feel it in your body!',analogy:'Fast = 🏃 running. Slow = 🚶 beach walk.',visual:'⚡ Fast  vs  🐢 Slow',type:'choice',q:'A lullaby likely has what tempo?',opts:['Very fast','Slow and calm 🌙','Same as a dance song','Loud and heavy'],correct:1},
-  ]},
-  coding:{name:'Coding',emoji:'💻',steps:[
-    {title:'What is a Command?',concept:'A command is an instruction you give to a computer. Like telling a robot: move forward, turn left. Computers follow commands one by one, in order!',analogy:'Commands are like a recipe 🍳 — follow steps 1, 2, 3 in order!',visual:'1️⃣ Move → 2️⃣ Turn → 3️⃣ Stop',type:'order',q:'Put these robot commands in the right order:',opts:['🏁 Stop','▶️ Start','🔄 Turn'],correct:[1,2,0]},
-    {title:'What is a Loop?',concept:'A loop repeats the same command many times. Instead of writing jump five times, you say jump 5 times! Loops save time and make code shorter.',analogy:'A loop is like a washing machine 🫧 — it spins, rinses, repeats!',visual:'🔁 Jump → Jump → Jump (×3)',type:'choice',q:'A loop is best for:',opts:['Doing something once','Doing something many times 🔁','Never doing anything','Stopping a program'],correct:1},
-  ]},
-  shloka:{name:'Shloka',emoji:'🕉️',steps:[
-    {title:'Gayatri Mantra Part 1',concept:'The Gayatri Mantra is one of India\'s most sacred chants. Today: "Om Bhur Bhuvaḥ Svaḥ" — meaning Earth, Space, and Heaven. Three words, three worlds.',analogy:'Think of these as 3 floors of a building — Earth, Sky, Heaven 🏢',visual:'🌍 Earth → ☁️ Sky → ⭐ Heaven',type:'blank',q:'Fill in the blank: Om Bhur ___ Svaḥ',opts:['Bhuvaḥ ✅','Karma','Dharma','Shakti'],correct:0},
-    {title:'Gayatri Mantra Part 2',concept:'"Tat Savitur Varenyam" — that divine light worthy of worship. Savitur means the Sun ☀️. We honour the Sun for giving us light and life.',analogy:'The Sun is like a teacher ☀️ — it shows the way!',visual:'☀️ Tat Savitur Varenyam',type:'choice',q:'Savitur refers to:',opts:['The Moon 🌙','The Sun ☀️','A river 🏞️','A mountain ⛰️'],correct:1},
-  ]},
   puzzles:{name:'Puzzles',emoji:'🧩',steps:[
     {title:'What is a Pattern?',concept:'A pattern is something that repeats in a predictable way. Red, blue, red, blue, red — what comes next? Blue! Finding patterns is a superpower for your brain.',analogy:'Like zebra stripes 🦓 — always black, white, black, white!',visual:'🔴 🔵 🔴 🔵 🔴 ___?',type:'choice',q:'What comes next? 🔴🔵🔴🔵🔴___',opts:['🔴 Red','🔵 Blue','🟡 Yellow','🟢 Green'],correct:1},
-  ]},
-  logic:{name:'Vedic Math',emoji:'🧮',steps:[
-    {title:'Add Left to Right',concept:'In Vedic Math, we add big numbers first! For 34+25: first 30+20=50, then 4+5=9, then 50+9=59. Faster than traditional!',analogy:'Like counting money 💰 — big coins first, then small ones!',visual:'34 + 25 → 30+20=50 → 4+5=9 → 59 ✅',type:'choice',q:'Using this method: 42 + 35 = ?',opts:['67','77 ✅','87','57'],correct:1},
-  ]},
-  daily:{name:'Daily Life',emoji:'🛒',steps:[
-    {title:'Making a Shopping List',concept:'Before going to a shop, write down what you need. Put the most important things first. Check how much money you have. A list stops you forgetting things!',analogy:'A shopping list is like a map 🗺️ — it guides you so you do not get lost!',visual:'📝 1. Rice  2. Dal  3. Milk',type:'choice',q:'Why is a shopping list helpful?',opts:['Makes shopping longer','Stops you forgetting things ✅','Just for fun','Shops require it'],correct:1},
   ]},
   reasoning:{name:'Reasoning Questions',emoji:'🧮',steps:[
     {title:'If–Then Thinking',concept:'Reasoning means figuring out what must be true. If all apples are fruits, and a Fuji is an apple — then a Fuji must be a fruit! We follow clues step by step.',analogy:'It is like being a detective 🔍 — gather the clues and find the answer!',visual:'🍎 Apple → 🍓 Fruit → 🎯 Fuji is a Fruit!',type:'choice',q:'If all birds have wings, and a sparrow is a bird — what must be true?',opts:['Sparrows can swim 🏊','Sparrows have wings ✅','All wings are birds','Sparrows have no legs'],correct:1},
@@ -250,6 +330,7 @@ const skillDB={
 let curSkill=null,curStep=0;
 function openSkill(id){
   curSkill=id;curStep=0;
+  ProgressManager.save({ skillsExplored: 1, activity: { emoji: skillDB[id].emoji, title: 'Started ' + skillDB[id].name, desc: 'Explored a new skill!' } });
   document.getElementById('skillsCat').style.display='none';
   document.getElementById('lessonView').style.display='block';
   document.getElementById('lessonBread').textContent=skillDB[id].name;
@@ -283,18 +364,25 @@ function renderStep(){
 }
 function checkChoice(idx,correct){
   const fb=document.getElementById('feedbackPanel');
-  if(idx===correct){fb.className='feedback-panel ok';fb.style.display='block';fb.innerHTML='🎉 Correct! You are doing amazing!';spawnConfetti(fb);showToast('⭐ Correct!');}
+  if(idx===correct){
+    fb.className='feedback-panel ok';fb.style.display='block';fb.innerHTML='🎉 Correct! You are doing amazing!';spawnConfetti(fb);showToast('⭐ Correct!');
+    ProgressManager.save({ skillId: curSkill, completedCount: curStep + 1 });
+  }
   else{fb.className='feedback-panel hint';fb.style.display='block';fb.innerHTML='Good try! The answer was: <strong>'+skillDB[curSkill].steps[curStep].opts[correct]+'</strong>. You can do it! 💪';}
 }
 function checkBlank(btn,isRight,opt){
   btn.classList.add('used');const fb=document.getElementById('feedbackPanel');
-  if(isRight){fb.className='feedback-panel ok';fb.style.display='block';fb.innerHTML='🎉 Perfect! "'+opt+'" is correct!';spawnConfetti(btn);}
+  if(isRight){
+    fb.className='feedback-panel ok';fb.style.display='block';fb.innerHTML='🎉 Perfect! "'+opt+'" is correct!';spawnConfetti(btn);
+    ProgressManager.save({ skillId: curSkill, completedCount: curStep + 1 });
+  }
   else{fb.className='feedback-panel hint';fb.style.display='block';fb.innerHTML='Good effort! Look for the word with "bh" in it 💡';}
 }
 function checkOrder(){
   const fb=document.getElementById('feedbackPanel');
   fb.className='feedback-panel ok';fb.style.display='block';
   fb.innerHTML='🎯 Well done for trying! The correct order is: Start → Turn → Stop. Commands always go in order!';
+  ProgressManager.save({ skillId: curSkill, completedCount: curStep + 1 });
 }
 function showHint(){
   const s=skillDB[curSkill].steps[curStep];
@@ -305,7 +393,12 @@ function showHint(){
 function nextStep(){
   const d=skillDB[curSkill];
   if(curStep<d.steps.length-1){curStep++;renderStep();}
-  else{showToast('🎉 Skill complete! Amazing!');spawnConfetti(document.getElementById('lessonView'));setTimeout(closeLesson,1800);}
+  else{
+    showToast('🎉 Skill complete! Amazing!');
+    ProgressManager.save({ activitiesDone: 1, activity: { emoji: d.emoji, title: 'Completed ' + d.name, desc: 'Mastered the skill levels!' } });
+    spawnConfetti(document.getElementById('lessonView'));
+    setTimeout(closeLesson,1800);
+  }
 }
 function prevStep(){if(curStep>0){curStep--;renderStep();}}
 
@@ -431,6 +524,7 @@ function tapPat(idx){
     if(patUser.length===patSeq.length){
       patScore++;document.getElementById('patScore').textContent=patScore;patLen++;
       showToast('🎉 Perfect! Level up!');spawnConfetti(document.getElementById('patGrid'));
+      ProgressManager.save({ skillId: 'matchcard', completedCount: 4, activitiesDone: 1, activity: { emoji: '🃏', title: 'Pattern Streak', desc: 'Reached level ' + patLen } });
       setTimeout(genPatSeq,1000);
     }
   } else {
@@ -476,16 +570,28 @@ function checkWords(){
   });
   fb.className='feedback-panel '+(found>=3?'ok':'hint');fb.style.display='block';
   fb.innerHTML=found>=3?'🎉 Brilliant! You remembered '+found+' of 5 words! Neural pathway locked in!':'Great effort! You remembered '+found+' of 5. The words were: '+wrSet.map(w=>w.w.split(' ')[0]).join(' ')+'. Keep practicing! 💪';
-  if(found>=3){spawnConfetti(fb);showToast('🧠 Neural Champion!');}
+  if(found>=3){
+    spawnConfetti(fb);showToast('🧠 Neural Champion!');
+    ProgressManager.save({ skillId: 'wordrecall', completedCount: 4, activitiesDone: 1, activity: { emoji: '📝', title: 'Word Champion', desc: 'Remembered ' + found + ' words!' } });
+  }
   setTimeout(()=>{document.getElementById('wrStudy').style.display='block';document.getElementById('wrRecall').style.display='none';loadWRWords();fb.style.display='none';},3000);
 }
 
 /* ═══════ DASHBOARD ═══════ */
-const weekVals=[2,4,3,5,2,4,3];
-const weekDays=['M','T','W','T','F','S','S'];
-function buildWeekChart(){
+function buildWeekChart(weeklyActivity){
   const chart=document.getElementById('weekChart');
-  const max=Math.max(...weekVals);
+  const weekVals = [];
+  const weekDays = [];
+  const today = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().split('T')[0];
+    const dayStr = d.toLocaleDateString('en-US', { weekday: 'short' }).charAt(0);
+    weekVals.push(weeklyActivity[dateStr] || 0);
+    weekDays.push(dayStr);
+  }
+  const max=Math.max(...weekVals, 5);
   chart.innerHTML=weekVals.map((v,i)=>`
     <div class="w-bar">
       <div class="w-val">${v}</div>
@@ -494,17 +600,169 @@ function buildWeekChart(){
     </div>
   `).join('');
 }
+
+function renderCognitiveProfile(data) {
+  const getPct = (key) => {
+    const s = skillDB[key];
+    if (!s) return 0;
+    const completed = data.skillProgress[key] || 0;
+    return Math.round((completed / s.steps.length) * 100) || 0;
+  };
+
+  const logicScore = Math.round((getPct('puzzles') + getPct('reasoning')) / 2) || 0;
+  const memoryScore = Math.round((getPct('matchcard') + getPct('wordrecall')) / 2) || 0;
+
+  const profDiv = document.getElementById('cognitiveProfile');
+  if (!profDiv) return;
+
+  profDiv.innerHTML = `
+    <div class="card" style="margin-bottom:24px;">
+      
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px;font-weight:700;">
+          <span style="color:var(--cyan)">🧩 Logic & Reasoning (Left Brain)</span>
+          <span>${logicScore}%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:${logicScore}%;background:var(--cyan)"></div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px;">Derived from Puzzles & Reasoning Modules</div>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px;font-weight:700;">
+          <span style="color:var(--gold)">🃏 Memory Retention (Right Brain)</span>
+          <span>${memoryScore}%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:${memoryScore}%;background:var(--gold)"></div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px;">Derived from Match the Card & Word Recall</div>
+      </div>
+
+    </div>
+  `;
+}
+
 function countUp(el,target,dur){
   let s=0;const step=Math.ceil(target/30);
   const iv=setInterval(()=>{s+=step;if(s>=target){el.textContent=target;clearInterval(iv);return;}el.textContent=s;},dur/30);
 }
-document.getElementById('nav-dashboard').addEventListener('click',()=>{
+function renderDashboard() {
+  const data = ProgressManager.data;
+  const sStr = data.dayStreak > 0 ? data.dayStreak : 1;
+  const statsHtml = `
+      <div class="stat-box">
+        <span class="stat-ico">🧠</span>
+        <span class="stat-n cyan" id="sSk">0</span>
+        <span class="stat-l">Skills Explored</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-ico">⭐</span>
+        <span class="stat-n gold" id="sStars">0</span>
+        <span class="stat-l">Stars Collected</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-ico">🔥</span>
+        <span class="stat-n violet" id="sStr">0</span>
+        <span class="stat-l">Day Streak</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-ico">✅</span>
+        <span class="stat-n mint" id="sAct">0</span>
+        <span class="stat-l">Activities Done</span>
+      </div>
+  `;
+  document.getElementById('dashStats').innerHTML = statsHtml;
   setTimeout(()=>{
-    countUp(document.getElementById('sSk'),4,800);
-    countUp(document.getElementById('sStars'),28,800);
-    countUp(document.getElementById('sStr'),3,800);
-    countUp(document.getElementById('sAct'),14,800);
-  },200);
+    countUp(document.getElementById('sSk'), data.skillsExplored || 0, 800);
+    countUp(document.getElementById('sStars'), data.starsCollected || 0, 800);
+    countUp(document.getElementById('sStr'), sStr, 800);
+    countUp(document.getElementById('sAct'), data.activitiesDone || 0, 800);
+  }, 200);
+
+  buildWeekChart(data.weeklyActivity || {});
+  renderCognitiveProfile(data);
+
+  let highestSkill = null;
+  let lowestSkill = null;
+  let maxPct = -1;
+  let minPct = 101;
+  const activeKeys = Object.keys(skillDB);
+  
+  activeKeys.forEach(key => {
+    const s = skillDB[key];
+    const completed = data.skillProgress[key] || 0;
+    const pct = Math.round((completed / s.steps.length) * 100) || 0;
+    
+    if (pct > maxPct) { maxPct = pct; highestSkill = s; }
+    if (pct < minPct) { minPct = pct; lowestSkill = s; }
+  });
+
+  const insightsDiv = document.getElementById('parentalInsights');
+  if (data.skillsExplored === 0) {
+    insightsDiv.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:14px">Allow your learner to explore some skills to generate real-time cognitive insights! 🌱</div>`;
+  } else {
+    insightsDiv.innerHTML = `
+      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 255, 224, 0.05) 100%); border-left: 4px solid var(--cyan);">
+        <div style="font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+          ${highestSkill.emoji} Strongest Area: ${highestSkill.name}
+        </div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.8)">
+          The learner shows excellent aptitude in this area (${maxPct}% mastered)! This builds great confidence.
+        </div>
+      </div>
+      <div class="card" style="background:linear-gradient(135deg, rgba(245, 200, 66, 0.05) 0%, rgba(255, 94, 143, 0.05) 100%); border-left: 4px solid var(--gold);">
+         <div style="font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+          🎯 Focus Recommended: ${lowestSkill.name}
+        </div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.8)">
+          We recommend a 5-minute session in <strong>${lowestSkill.name}</strong> to balance their cognitive development.
+        </div>
+      </div>
+    `;
+  }
+
+  let skillsHtml = '';
+  Object.keys(skillDB).forEach(key => {
+    const s = skillDB[key];
+    const completed = data.skillProgress[key] || 0;
+    const total = s.steps.length;
+    const pct = Math.round((completed / total) * 100) || 0;
+    skillsHtml += `
+    <div class="sk-prog-item">
+      <span class="sk-prog-ico">${s.emoji}</span>
+      <div class="sk-prog-info">
+        <div class="sk-prog-name">${s.name}</div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <span class="sk-prog-pct">${pct}%</span>
+    </div>`;
+  });
+  document.getElementById('dashSkills').innerHTML = skillsHtml;
+
+  let actHtml = '';
+  const recent = data.recentActivity || [];
+  if (recent.length === 0) {
+    actHtml = `<div style="color:var(--muted);font-size:13px;padding:12px;text-align:center">No recent activity yet. Start exploring skills!</div>`;
+  } else {
+    recent.forEach(act => {
+      let tStr = "Just now";
+      if(act.time) {
+        const diff = Math.floor((new Date() - new Date(act.time))/60000);
+        if(diff > 1440) tStr = Math.floor(diff/1440) + "d ago";
+        else if(diff > 60) tStr = Math.floor(diff/60) + "h ago";
+        else if(diff > 0) tStr = diff + "m ago";
+      }
+      actHtml += `
+      <div class="act-item">
+        <div class="act-dot">${act.emoji}</div>
+        <div class="act-body"><strong>${act.title}</strong><br><span>${act.desc}</span></div>
+        <div class="act-time">${tStr}</div>
+      </div>`;
+    });
+  }
+  document.getElementById('actFeed').innerHTML = actHtml;
+}
+
+document.getElementById('nav-dashboard').addEventListener('click',()=>{
+  renderDashboard();
 });
 
 /* ═══════ CONFETTI ═══════ */
@@ -529,6 +787,7 @@ let puzzleCompleted = false;
 
 function addGlobalXP(n){
   globalXP += n;
+  ProgressManager.save({ starsCollected: Math.floor(n/10) || 1, activity: { emoji:'⭐', title:'Earned XP', desc: `Earned ${n} XP in practice module!` } });
   const badge = document.getElementById('globalXP');
   badge.textContent = '⭐ ' + globalXP + ' XP';
   badge.classList.add('visible');
