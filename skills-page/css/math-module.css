@@ -1,0 +1,194 @@
+/* MATH MODULE */
+.module-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem;
+  margin-top: 40px;
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.module-progress-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-main);
+}
+
+.module-xp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.module-level-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid;
+}
+
+/* Base level colors */
+.lvl-1 { color: var(--cyan); border-color: var(--cyan); background: rgba(0, 212, 255, 0.1); }
+.lvl-2 { color: var(--green); border-color: var(--green); background: rgba(46, 213, 115, 0.1); }
+.lvl-3 { color: var(--gold); border-color: var(--gold); background: rgba(245, 200, 66, 0.1); }
+.lvl-4 { color: var(--orange); border-color: var(--orange); background: rgba(255, 170, 0, 0.1); }
+.lvl-5 { color: var(--violet); border-color: var(--violet); background: rgba(124, 58, 237, 0.1); }
+
+/* Progress bar */
+.mod-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.mod-progress-fill {
+  height: 100%;
+  background: var(--cyan);
+  width: 0%;
+  transition: width 0.6s var(--spring);
+}
+
+/* Question Area */
+.question-area {
+  text-align: center;
+  margin-bottom: 40px;
+  min-height: 120px;
+  position: relative;
+}
+
+.question-visual {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 48px;
+}
+
+.question-text {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Options Grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.option-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: none;
+  transition: all 0.2s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-cyan);
+}
+
+/* Validation states */
+.option-btn.correct {
+  background: rgba(46, 213, 115, 0.15);
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 20px rgba(46, 213, 115, 0.3);
+}
+
+.option-btn.wrong {
+  background: rgba(255, 71, 87, 0.15);
+  border-color: var(--red);
+  color: var(--red);
+  animation: shake 0.5s ease;
+}
+
+.option-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.option-btn.correct .option-icon,
+.option-btn.wrong .option-icon {
+  opacity: 1;
+}
+
+.fun-fact-bubble {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid var(--cyan);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 16px;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.4s var(--spring);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  display: none;
+}
+
+.fun-fact-bubble.show {
+  display: flex;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.next-action-area {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.4s var(--spring);
+  pointer-events: none;
+}
+
+.next-action-area.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+  .module-container {
+    padding: 2rem 1.5rem;
+  }
+}

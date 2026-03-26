@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cognify — Develop Skills</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Component CSS -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/skill-cards.css">
+  <link rel="stylesheet" href="css/math-module.css">
+  <link rel="stylesheet" href="css/puzzle-module.css">
+  <link rel="stylesheet" href="css/progress.css">
+</head>
+<body>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NEURAL CANVAS -->
+  <canvas id="neural-canvas"></canvas>
+
+  <!-- TOPBAR / NAVBAR -->
+  <header class="topbar">
+    <div class="logo">Cogni<span>fy</span></div>
+    
+    <div class="search-wrap">
+      <div class="ai-search-pill">
+        <span class="search-icon">✨</span>
+        <input type="text" placeholder="Ask Cognify AI..." disabled />
+      </div>
+    </div>
+    
+    <div class="top-actions">
+      <button class="btn btn-ghost btn-sm">Log in</button>
+      <button class="btn btn-primary btn-sm">Sign Up</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+    
+    <!-- HERO -->
+    <section class="hero reveal">
+      <div class="ambient-glow glow-cyan"></div>
+      <div class="ambient-glow glow-violet"></div>
+      
+      <h1>Choose Your Skill 🌟</h1>
+      <p>Every skill is broken into simple steps. Go at your own pace.</p>
+      
+      <div class="progress-tracker">
+        <div class="step-pill active" id="tracker-step1">
+          <span class="step-num">1</span> Pick a Skill
+        </div>
+        <div class="step-line"></div>
+        <div class="step-pill" id="tracker-step2">
+          <span class="step-num">2</span> Complete Challenges
+        </div>
+        <div class="step-line"></div>
+        <div class="step-pill" id="tracker-step3">
+          <span class="step-num">3</span> Earn Your Badge
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS CATEGORY: Memory Reasoning -->
+    <section class="category-section reveal" id="categorySelection">
+      <h2 class="category-title">Memory Reasoning <span>✨</span></h2>
+      
+      <div class="skills-grid">
+        <!-- Math Card -->
+        <div class="skill-card card-math">
+          <div class="card-accent accent-math"></div>
+          <div class="card-icon">🧮</div>
+          <h3 class="card-title">Mathematical Reasoning</h3>
+          <p class="card-desc">Supercharge your mental math the ancient Indian way!</p>
+          
+          <div class="card-progress">
+            <div class="progress-dot filled"></div>
+            <div class="progress-dot pulsing"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+          </div>
+          
+          <div class="badge-pill badge-math">5 LESSONS</div>
+          <button class="btn btn-math btn-ripple" id="startMathBtn">Start</button>
+        </div>
+
+        <!-- Puzzle Card -->
+        <div class="skill-card card-puzzle">
+          <div class="card-accent accent-puzzle"></div>
+          <div class="card-icon">🧩</div>
+          <h3 class="card-title">Puzzles & Reasoning Questions</h3>
+          <p class="card-desc">Spot patterns and solve them one step at a time.</p>
+          
+          <div class="card-progress">
+            <div class="progress-dot filled"></div>
+            <div class="progress-dot pulsing"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+          </div>
+          
+          <div class="badge-pill badge-puzzle">5 LESSONS</div>
+          <button class="btn btn-puzzle btn-ripple" id="startPuzzleBtn">Start</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATH MODULE -->
+    <section class="module-container math-module glass-panel" id="mathModule" style="display: none;">
+    </section>
+
+    <!-- PUZZLE MODULE -->
+    <section class="module-container puzzle-module glass-panel" id="puzzleModule" style="display: none;">
+    </section>
+
+  </main>
+
+  <!-- XP FLOATING BADGE -->
+  <div class="xp-badge" id="xpBadge">
+    <div class="xp-icon">⚡</div>
+    <div class="xp-text"><span id="xpValue">0</span> XP</div>
+  </div>
+
+  <!-- CONGRATS BANNER -->
+  <div class="congrats-banner" id="congratsBanner" style="display: none;">
+    <div class="congrats-content">
+      🏆 You've Earned the Cognitive Champion Badge! <span class="xp-gain">+125 XP</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/canvas.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/ripple.js"></script>
+  <script src="js/reveal.js"></script>
+  <script src="js/math-questions.js"></script>
+  <script src="js/puzzle-questions.js"></script>
+</body>
+</html>
