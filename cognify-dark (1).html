@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -222,89 +222,67 @@
       <div class="section-title">Choose Your Skill 🌟</div>
       <div class="section-sub">Every skill is broken into simple steps. Go at your own pace.</div>
 
+      <!-- GROUP 1: Mathematical Reasoning -->
+      <div class="skill-group-label">🔢 Mathematical Reasoning</div>
       <div class="skills-grid">
-        <div class="skill-card c-music" onclick="openSkill('music')">
-          <div class="ring-wrap">
-            <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
-              <circle class="ring-bg" cx="20" cy="20" r="16"/>
-              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#7c3aed" stroke-dasharray="100.5" stroke-dashoffset="75"/>
-            </svg>
-          </div>
-          <span class="sk-emoji">🎵</span>
-          <div class="sk-name">Music</div>
-          <div class="sk-desc">Match notes, feel the rhythm, train your ear — step by step.</div>
-          <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div></div>
-          <span class="badge badge-violet">5 Lessons</span>
-        </div>
-
-        <div class="skill-card c-code" onclick="openSkill('coding')">
-          <div class="ring-wrap">
-            <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
-              <circle class="ring-bg" cx="20" cy="20" r="16"/>
-              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#00d4ff" stroke-dasharray="100.5" stroke-dashoffset="50"/>
-            </svg>
-          </div>
-          <span class="sk-emoji">💻</span>
-          <div class="sk-name">Simple Coding</div>
-          <div class="sk-desc">Learn logic with fun block-style puzzles. No experience needed!</div>
-          <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
-          <span class="badge badge-cyan">4 Lessons</span>
-        </div>
-
         <div class="skill-card c-puzzle" onclick="openSkill('puzzles')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
-              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#f5c842" stroke-dasharray="100.5" stroke-dashoffset="85"/>
+              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#f5c842" stroke-dasharray="100.5" stroke-dashoffset="75"/>
             </svg>
           </div>
           <span class="sk-emoji">🧩</span>
           <div class="sk-name">Puzzles</div>
           <div class="sk-desc">Spot patterns and solve them one step at a time.</div>
           <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div></div>
-          <span class="badge badge-gold">6 Lessons</span>
+          <span class="badge badge-gold">4 Lessons</span>
         </div>
 
-        <div class="skill-card c-shloka" onclick="openSkill('shloka')">
+        <div class="skill-card c-logic" onclick="openSkill('reasoning')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
-              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#ff5e8f" stroke-dasharray="100.5" stroke-dashoffset="100"/>
-            </svg>
-          </div>
-          <span class="sk-emoji">🕉️</span>
-          <div class="sk-name">Shloka Memory</div>
-          <div class="sk-desc">Memorize the Gayatri Mantra one phrase at a time.</div>
-          <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
-          <span class="badge badge-rose">3 Lessons</span>
-        </div>
-
-        <div class="skill-card c-logic" onclick="openSkill('logic')">
-          <div class="ring-wrap">
-            <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
-              <circle class="ring-bg" cx="20" cy="20" r="16"/>
-              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#5b8eff" stroke-dasharray="100.5" stroke-dashoffset="62"/>
+              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#5b8eff" stroke-dasharray="100.5" stroke-dashoffset="85"/>
             </svg>
           </div>
           <span class="sk-emoji">🧮</span>
-          <div class="sk-name">Vedic Math</div>
-          <div class="sk-desc">Supercharge your mental math the ancient Indian way!</div>
-          <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div></div>
-          <span class="badge badge-cyan">5 Lessons</span>
+          <div class="sk-name">Reasoning Questions</div>
+          <div class="sk-desc">Sharpen your logical thinking with fun step-by-step reasoning!</div>
+          <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
+          <span class="badge badge-cyan">4 Lessons</span>
         </div>
+      </div>
 
-        <div class="skill-card c-daily" onclick="openSkill('daily')">
+      <!-- GROUP 2: Memory Recall -->
+      <div class="skill-group-label" style="margin-top:28px;">🧠 Memory Recall</div>
+      <div class="skills-grid">
+        <div class="skill-card c-code" onclick="openSkill('matchcard')">
           <div class="ring-wrap">
             <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
               <circle class="ring-bg" cx="20" cy="20" r="16"/>
-              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#00ffe0" stroke-dasharray="100.5" stroke-dashoffset="40"/>
+              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#00d4ff" stroke-dasharray="100.5" stroke-dashoffset="75"/>
             </svg>
           </div>
-          <span class="sk-emoji">🛒</span>
-          <div class="sk-name">Daily Life Skills</div>
-          <div class="sk-desc">Plan a ₹500 grocery run. Real-world budgeting made fun!</div>
+          <span class="sk-emoji">🃏</span>
+          <div class="sk-name">Match the Card</div>
+          <div class="sk-desc">Flip and match pairs to train your visual memory!</div>
           <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
           <span class="badge badge-cyan">4 Lessons</span>
+        </div>
+
+        <div class="skill-card c-shloka" onclick="openSkill('wordrecall')">
+          <div class="ring-wrap">
+            <svg class="ring-svg" width="40" height="40" viewBox="0 0 40 40">
+              <circle class="ring-bg" cx="20" cy="20" r="16"/>
+              <circle class="ring-fill" cx="20" cy="20" r="16" stroke="#ff5e8f" stroke-dasharray="100.5" stroke-dashoffset="75"/>
+            </svg>
+          </div>
+          <span class="sk-emoji">📝</span>
+          <div class="sk-name">Word Recall</div>
+          <div class="sk-desc">Study words, then recall them from memory. Build your brain!</div>
+          <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
+          <span class="badge badge-rose">4 Lessons</span>
         </div>
       </div>
     </div>
@@ -357,6 +335,68 @@
         <button class="btn btn-primary" onclick="nextStep()" style="flex:1;justify-content:center;border-radius:14px">Next Step →</button>
       </div>
     </div>
+
+    <!-- ═══ MATH QUESTIONS MODULE ═══ -->
+    <div class="iq-module" id="mathModule">
+      <div class="iq-module-inner">
+        <div class="iq-topbar">
+          <div class="iq-meta">
+            <span class="iq-qnum" id="mathQNum">Question 1 of 5</span>
+            <div class="iq-bar-wrap"><div class="iq-bar-fill" id="mathBarFill" style="width:0%"></div></div>
+          </div>
+          <div class="iq-right">
+            <span class="iq-level-badge" id="mathLevel">Level 1</span>
+            <div class="iq-xp" id="mathXP">⭐ 0 XP</div>
+          </div>
+        </div>
+        <div class="iq-visual" id="mathVisual"></div>
+        <div class="iq-qtext" id="mathQText"></div>
+        <div class="iq-opts" id="mathOpts"></div>
+        <div class="iq-funfact" id="mathFunFact" style="display:none"></div>
+        <div style="text-align:center;margin-top:20px">
+          <button class="iq-next-btn" id="mathNextBtn" onclick="mathNext()" style="display:none">Next Question →</button>
+        </div>
+        <div class="iq-complete" id="mathComplete" style="display:none">
+          <div class="iq-complete-badge">🧮</div>
+          <div class="iq-complete-title">Mathematical Reasoning Complete!</div>
+          <div class="iq-complete-sub" id="mathXPEarned"></div>
+          <button class="iq-next-btn gold" onclick="launchPuzzleFromCompletion()">Try Puzzles Next →</button>
+        </div>
+        <button class="iq-close-btn" onclick="closeModule('mathModule')">✕ Close</button>
+      </div>
+    </div>
+
+    <!-- ═══ PUZZLE MODULE ═══ -->
+    <div class="iq-module" id="puzzleModule">
+      <div class="iq-module-inner">
+        <div class="iq-topbar">
+          <div class="iq-meta">
+            <span class="iq-qnum" id="puzzleQNum">Puzzle 1 of 5</span>
+            <div class="iq-bar-wrap"><div class="iq-bar-fill" id="puzzleBarFill" style="width:0%"></div></div>
+          </div>
+          <div class="iq-right">
+            <span class="iq-level-badge" id="puzzleLevel">Level 1</span>
+            <div class="iq-xp" id="puzzleXP">⭐ 0 XP</div>
+          </div>
+        </div>
+        <div class="iq-instruction" id="puzzleInstruction"></div>
+        <div class="iq-puzzle-area" id="puzzleArea"></div>
+        <div class="iq-funfact" id="puzzleFunFact" style="display:none"></div>
+        <div style="text-align:center;margin-top:20px">
+          <button class="iq-next-btn" id="puzzleNextBtn" onclick="puzzleNext()" style="display:none">Next Puzzle →</button>
+        </div>
+        <div class="iq-complete" id="puzzleComplete" style="display:none">
+          <div class="iq-complete-badge">🧩</div>
+          <div class="iq-complete-title">Puzzle Master Unlocked!</div>
+          <div class="iq-complete-sub" id="puzzleXPEarned"></div>
+          <button class="iq-next-btn" onclick="closeModule('puzzleModule')">Back to Skills 🎉</button>
+        </div>
+        <button class="iq-close-btn" onclick="closeModule('puzzleModule')">✕ Close</button>
+      </div>
+    </div>
+
+    <div class="iq-global-xp" id="globalXP">⭐ 0 XP</div>
+    <div class="iq-champion-banner" id="championBanner" style="display:none">🏆 You've Earned the Cognitive Champion Badge! +125 XP</div>
 
   </div>
 </div>

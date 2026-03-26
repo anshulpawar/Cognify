@@ -228,6 +228,24 @@ const skillDB={
   daily:{name:'Daily Life',emoji:'🛒',steps:[
     {title:'Making a Shopping List',concept:'Before going to a shop, write down what you need. Put the most important things first. Check how much money you have. A list stops you forgetting things!',analogy:'A shopping list is like a map 🗺️ — it guides you so you do not get lost!',visual:'📝 1. Rice  2. Dal  3. Milk',type:'choice',q:'Why is a shopping list helpful?',opts:['Makes shopping longer','Stops you forgetting things ✅','Just for fun','Shops require it'],correct:1},
   ]},
+  reasoning:{name:'Reasoning Questions',emoji:'🧮',steps:[
+    {title:'If–Then Thinking',concept:'Reasoning means figuring out what must be true. If all apples are fruits, and a Fuji is an apple — then a Fuji must be a fruit! We follow clues step by step.',analogy:'It is like being a detective 🔍 — gather the clues and find the answer!',visual:'🍎 Apple → 🍓 Fruit → 🎯 Fuji is a Fruit!',type:'choice',q:'If all birds have wings, and a sparrow is a bird — what must be true?',opts:['Sparrows can swim 🏊','Sparrows have wings ✅','All wings are birds','Sparrows have no legs'],correct:1},
+    {title:'Odd One Out',concept:'Look at a group of things. Find the one that does NOT belong. Think about what makes the others similar — colour, shape, category — then remove the odd one!',analogy:'Like a puzzle piece that does not fit the box 🧩!',visual:'🍎 🍊 🍋 🚗 🍇',type:'choice',q:'Which is the odd one out? 🍎 🍊 🍋 🚗 🍇',opts:['🍎 Apple','🍊 Orange','🚗 Car ✅','🍇 Grapes'],correct:2},
+    {title:'Number Sequences',concept:'Numbers can follow a pattern — adding, subtracting, or skipping by the same amount. Spot the rule, then predict the next number!',analogy:'Like steps on a staircase 🪜 — each step goes up by the same amount!',visual:'2 → 4 → 6 → 8 → ___?',type:'choice',q:'What comes next? 5, 10, 15, 20, ___',opts:['22','24','25 ✅','30'],correct:2},
+    {title:'True or False Reasoning',concept:'Read a statement carefully. Use what you know to decide if it is TRUE or FALSE. Look for trick words like "always", "never", "all", or "some".',analogy:'Like a judge in a courtroom ⚖️ — weigh the evidence before deciding!',visual:'Statement → Evidence → Verdict ✅ or ❌',type:'choice',q:'All squares are rectangles. Is this TRUE or FALSE?',opts:['False — squares are different','True ✅ — squares have 4 right angles like rectangles','False — rectangles are bigger','True — all shapes are rectangles'],correct:1},
+  ]},
+  matchcard:{name:'Match the Card',emoji:'🃏',steps:[
+    {title:'What is Visual Memory?',concept:'Visual memory is your brain\'s ability to remember what you see. When you flip a card and remember where its pair is hiding, that is visual memory at work!',analogy:'It is like a photo album in your brain 📸 — you can look back at what you saw!',visual:'🃏 ❓ → 🎵 → Remember where 🎵 is!',type:'choice',q:'Visual memory helps you remember:',opts:['Smells','What you have seen 👁️ ✅','How things taste','What you heard'],correct:1},
+    {title:'Matching Pairs Strategy',concept:'When playing match-the-card, start from the corners. Turn two cards at a time and really focus on where each one was. Say the card name out loud to remember better!',analogy:'Like a library 📚 — everything has a place, you just have to learn where!',visual:'🔵 Top-left → 🔵 Bottom-right = Match! ✅',type:'choice',q:'Which strategy helps most when matching cards?',opts:['Flip randomly and hope','Focus and say card names aloud ✅','Close your eyes','Flip very fast'],correct:1},
+    {title:'Concentration Technique',concept:'To improve at memory games, take a breath before each turn. Look carefully. Picture the card in your mind BEFORE flipping the next one. Slow and steady wins!',analogy:'Like a chess player ♟️ — think before you move!',visual:'Breathe → Look → Picture → Flip 🃏',type:'choice',q:'What helps most before flipping each card?',opts:['Guess quickly','Picture the card in your mind first ✅','Flip as fast as possible','Skip difficult pairs'],correct:1},
+    {title:'Building Your Memory',concept:'Every time you play a memory matching game, your brain gets a tiny bit stronger. Scientists call this neuroplasticity — your brain literally changes and grows with practice!',analogy:'Like lifting weights 🏋️ — each practice session builds your brain\'s muscle!',visual:'🧠 Practice → Stronger Connections → Better Memory!',type:'choice',q:'What happens to your brain when you practice memory games?',opts:['Nothing changes','It gets tired and stops','It grows stronger ✅','It forgets faster'],correct:2},
+  ]},
+  wordrecall:{name:'Word Recall',emoji:'📝',steps:[
+    {title:'How Word Memory Works',concept:'Your brain stores words in a special area. To recall a word, you retrace the path your brain made when you first learned it. The more you practise, the easier the path becomes!',analogy:'Like walking through a forest 🌲 — the more you walk the same path, the clearer it gets!',visual:'Learn 🌳 → Path forms → Recall 🌳 easily!',type:'choice',q:'Why does repeating a word help you remember it?',opts:['It writes the word on paper','It strengthens the brain path ✅','It erases old memories','It slows your thinking'],correct:1},
+    {title:'Chunking Words Together',concept:'Grouping words by category makes them easier to remember. Instead of random words, group them: animals together, colours together, foods together. Your brain loves categories!',analogy:'Like organising a drawer 🗂️ — socks with socks, shirts with shirts!',visual:'🐘🦁🐬 = Animals | 🍎🍊🍋 = Fruits',type:'choice',q:'Which set of words would be easiest to remember?',opts:['Car, Cloud, Drum, Apple, Lamp','Dog, Cat, Tiger, Lion, Parrot ✅','Blue, Run, Three, Loud, Think','Jump, Slow, Hot, Long, Far'],correct:1},
+    {title:'The Visualisation Trick',concept:'To remember a word, picture it vividly in your mind. If the word is "elephant", imagine a giant elephant dancing in your room! Strong, silly images stick in memory the best.',analogy:'The funnier and bigger the picture, the stronger the memory! 🐘🎪',visual:'Word: STAR → Picture: ⭐ shining on your head!',type:'choice',q:'Which image would best help you remember the word "OCEAN"?',opts:['Think of the letters O-C-E-A-N','Picture yourself swimming in deep blue waves 🌊 ✅','Write it 10 times','Look it up in a dictionary'],correct:1},
+    {title:'Spaced Repetition',concept:'Don\'t try to memorise everything at once! Study a few words, rest, then review again. Each time you return to a word after a break, your memory of it grows stronger.',analogy:'Like watering a plant 🌱 — a little water every day is better than flooding it once!',visual:'Day 1: Learn → Day 2: Review → Day 4: Review → 💪',type:'choice',q:'What is the best way to memorise 10 new words?',opts:['Cram all 10 in one hour','Study, rest, and review over several days ✅','Never look at them again','Read them once very fast'],correct:1},
+  ]},
 };
 let curSkill=null,curStep=0;
 function openSkill(id){
@@ -499,3 +517,505 @@ function spawnConfetti(el){
     document.body.appendChild(p);setTimeout(()=>p.remove(),1100);
   }
 }
+
+/* ═══════════════════════════════════════════
+   INTERACTIVE MODULES — MATH & PUZZLE
+═══════════════════════════════════════════ */
+
+/* ── Shared globals ── */
+let globalXP = 0;
+let mathCompleted = false;
+let puzzleCompleted = false;
+
+function addGlobalXP(n){
+  globalXP += n;
+  const badge = document.getElementById('globalXP');
+  badge.textContent = '⭐ ' + globalXP + ' XP';
+  badge.classList.add('visible');
+  badge.classList.remove('pop');
+  void badge.offsetWidth;
+  badge.classList.add('pop');
+  if(mathCompleted && puzzleCompleted) showChampionBanner();
+}
+
+function showChampionBanner(){
+  const b = document.getElementById('championBanner');
+  b.style.display = 'block';
+  b.onclick = () => b.style.display='none';
+  spawnIQConfetti();
+}
+
+function spawnIQConfetti(){
+  const cols = ['#00d4ff','#00ffe0','#f5c842','#ff5e8f','#7c3aed'];
+  for(let i=0;i<30;i++){
+    const d = document.createElement('div');
+    d.className = 'iq-confetti-dot';
+    d.style.cssText = `left:${Math.random()*100}vw;bottom:80px;background:${cols[i%5]};animation-delay:${Math.random()*.5}s;animation-duration:${.8+Math.random()*.6}s`;
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(), 1500);
+  }
+}
+
+/* ── Module open / close ── */
+function openSkillModule(moduleId){
+  document.getElementById('skillsCat').style.display = 'none';
+  document.getElementById('lessonView').style.display  = 'none';
+  document.getElementById('mathModule').classList.remove('active');
+  document.getElementById('puzzleModule').classList.remove('active');
+  document.getElementById(moduleId).classList.add('active');
+  document.getElementById(moduleId).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeModule(moduleId){
+  document.getElementById(moduleId).classList.remove('active');
+  document.getElementById('skillsCat').style.display = 'block';
+  window.scrollTo({top: document.getElementById('page-skills').offsetTop, behavior:'smooth'});
+}
+
+function launchPuzzleFromCompletion(){
+  closeModule('mathModule');
+  setTimeout(()=>{ startPuzzleModule(); }, 400);
+}
+
+/* ════════════════════════════════════════
+   MATH QUESTIONS MODULE
+════════════════════════════════════════ */
+const mathQuestions = [
+  {
+    level: 1, lvClass:'',
+    visual: () => {
+      let h = '';
+      for(let i=0;i<5;i++) h += `<span class="iq-apple">🍎</span>`;
+      return h;
+    },
+    question: 'If you have 3 apples and someone gives you 2 more, how many apples do you have?',
+    opts: ['A) 4','B) 5','C) 6','D) 3'],
+    correct: 1,
+    fact: '🎉 Great job! Addition means combining groups together!'
+  },
+  {
+    level: 2, lvClass:'lv2',
+    visual: () => {
+      let h = '<div class="iq-num-row">';
+      for(let i=1;i<=12;i++){
+        const classes = (i%2===0?'even':'') + (i===10?' active':'');
+        h += `<div class="iq-num-dot ${classes}">${i}</div>`;
+      }
+      h += '</div>';
+      return h;
+    },
+    question: 'What number comes next in this pattern? 2, 4, 6, 8, ___',
+    opts: ['A) 9','B) 10','C) 11','D) 12'],
+    correct: 1,
+    fact: '✨ You found the pattern! These are called even numbers.'
+  },
+  {
+    level: 3, lvClass:'lv3',
+    visual: () => {
+      let h = '<div class="iq-star-rows">';
+      for(let r=0;r<3;r++){
+        h += '<div class="iq-star-row">';
+        for(let c=0;c<4;c++) h += '<span class="iq-star">⭐</span>';
+        h += '</div>';
+      }
+      h += '</div>';
+      return h;
+    },
+    question: 'There are 3 rows of stars with 4 stars in each row. How many stars are there in total?',
+    opts: ['A) 7','B) 10','C) 12','D) 14'],
+    correct: 2,
+    fact: '🌟 Multiplication is just fast adding! 3 × 4 = 12'
+  },
+  {
+    level: 4, lvClass:'lv4',
+    visual: () => `
+      <svg class="iq-clock" viewBox="0 0 90 90">
+        <circle class="clock-face" cx="45" cy="45" r="40"/>
+        <text x="45" y="18" text-anchor="middle" font-size="9" fill="rgba(0,212,255,0.5)" font-family="Syne">12</text>
+        <text x="45" y="76" text-anchor="middle" font-size="9" fill="rgba(0,212,255,0.5)" font-family="Syne">6</text>
+        <text x="14" y="49" text-anchor="middle" font-size="9" fill="rgba(0,212,255,0.5)" font-family="Syne">9</text>
+        <text x="76" y="49" text-anchor="middle" font-size="9" fill="rgba(0,212,255,0.5)" font-family="Syne">3</text>
+        <line class="clock-hour" x1="45" y1="45" x2="45" y2="22" style="transform:rotate(60deg)"/>
+        <line class="clock-minute" x1="45" y1="45" x2="45" y2="16"/>
+        <circle cx="45" cy="45" r="3" fill="var(--cyan)"/>
+      </svg>
+      <span style="font-size:1rem;color:var(--muted);font-weight:300">2:00 PM → ?</span>`,
+    question: 'A movie starts at 2:00 PM and lasts 1 hour 30 minutes. What time does it end?',
+    opts: ['A) 3:00 PM','B) 3:30 PM','C) 4:00 PM','D) 2:30 PM'],
+    correct: 1,
+    fact: '⏰ Time math is used every day — great thinking!'
+  },
+  {
+    level: 5, lvClass:'lv5',
+    visual: () => `
+      <svg class="iq-pie" viewBox="0 0 36 36">
+        <circle class="iq-pie-bg" cx="18" cy="18" r="15.9" stroke-width="16"/>
+        <circle class="iq-pie-half" cx="18" cy="18" r="15.9" pathLength="100"/>
+        <circle class="iq-pie-used" cx="18" cy="18" r="15.9" pathLength="100"/>
+      </svg>
+      <span style="font-size:.95rem;color:var(--muted);font-weight:300;text-align:center">Pink = half given away, Cyan = 3 used</span>`,
+    question: 'Maya has 20 stickers. She gives half to her friend and then uses 3 herself. How many does she have left?',
+    opts: ['A) 10','B) 8','C) 7','D) 9'],
+    correct: 2,
+    fact: '🧠 Two steps — first divide, then subtract. You\'re a problem solver!'
+  }
+];
+
+let mathIdx = 0, mathXPEarned = 0, mathAnswered = false;
+
+function startMathModule(){
+  mathIdx = 0; mathXPEarned = 0; mathAnswered = false;
+  openSkillModule('mathModule');
+  document.getElementById('mathComplete').style.display = 'none';
+  document.getElementById('mathNextBtn').style.display = 'none';
+  renderMathQ();
+}
+
+function renderMathQ(){
+  const q = mathQuestions[mathIdx];
+  // Top bar
+  document.getElementById('mathQNum').textContent = `Question ${mathIdx+1} of 5`;
+  document.getElementById('mathBarFill').style.width = (mathIdx/5*100)+'%';
+  const lb = document.getElementById('mathLevel');
+  lb.textContent = 'Level '+q.level;
+  lb.className = 'iq-level-badge ' + q.lvClass;
+  document.getElementById('mathXP').textContent = '⭐ '+mathXPEarned+' XP';
+  // Visual
+  document.getElementById('mathVisual').innerHTML = typeof q.visual === 'function' ? q.visual() : q.visual;
+  // Question
+  document.getElementById('mathQText').textContent = q.question;
+  // Options
+  const optsEl = document.getElementById('mathOpts');
+  optsEl.innerHTML = q.opts.map((o,i)=>`<button class="iq-opt" onclick="answerMath(${i})">${o}</button>`).join('');
+  // Fun fact
+  document.getElementById('mathFunFact').style.display='none';
+  document.getElementById('mathNextBtn').style.display='none';
+  mathAnswered = false;
+}
+
+function answerMath(idx){
+  if(mathAnswered) return;
+  mathAnswered = true;
+  const q = mathQuestions[mathIdx];
+  const opts = document.querySelectorAll('#mathOpts .iq-opt');
+  opts.forEach(o=>o.disabled=true);
+  opts[q.correct].classList.add('correct');
+  if(idx !== q.correct){
+    opts[idx].classList.add('wrong');
+  } else {
+    mathXPEarned += 10;
+    document.getElementById('mathXP').textContent = '⭐ '+mathXPEarned+' XP';
+    const xpEl = document.getElementById('mathXP');
+    xpEl.classList.remove('pop'); void xpEl.offsetWidth; xpEl.classList.add('pop');
+    addGlobalXP(10);
+    spawnConfetti(opts[q.correct]);
+  }
+  const ff = document.getElementById('mathFunFact');
+  ff.textContent = q.fact;
+  ff.style.display = 'block';
+  document.getElementById('mathNextBtn').style.display = 'inline-block';
+}
+
+function mathNext(){
+  mathIdx++;
+  if(mathIdx < mathQuestions.length){
+    renderMathQ();
+  } else {
+    // Completion
+    document.getElementById('mathBarFill').style.width = '100%';
+    document.getElementById('mathFunFact').style.display='none';
+    document.getElementById('mathNextBtn').style.display='none';
+    document.getElementById('mathQText').innerHTML='';
+    document.getElementById('mathOpts').innerHTML='';
+    document.getElementById('mathVisual').innerHTML='';
+    document.getElementById('mathXPEarned').textContent = '🎉 You earned '+mathXPEarned+' XP this session!';
+    document.getElementById('mathComplete').style.display = 'block';
+    mathCompleted = true;
+    spawnIQConfetti();
+  }
+}
+
+/* ════════════════════════════════════════
+   PUZZLE MODULE
+════════════════════════════════════════ */
+const puzzles = [
+  {
+    level:1, lvClass:'', label:'Level 1',
+    instruction:'👁️ Tap the shape that does NOT belong in this group!',
+    render: renderPuzzle1,
+    fact:'Great eye! The square is different — it has corners, circles don\'t 🔵'
+  },
+  {
+    level:2, lvClass:'lv2', label:'Level 2',
+    instruction:'🌙 Which emoji completes the pattern?',
+    render: renderPuzzle2,
+    fact:'Patterns repeat — once you see it, you can predict what comes next 🌙'
+  },
+  {
+    level:3, lvClass:'lv3', label:'Level 3',
+    instruction:'🎯 Match each shape to its shadow! Tap a shape then tap its shadow.',
+    render: renderPuzzle3,
+    fact:'Matching shapes builds visual thinking — a superpower of the brain! 🧠'
+  },
+  {
+    level:4, lvClass:'lv4', label:'Level 4',
+    instruction:'🌱 Tap the steps in the correct order! 1 → 2 → 3 → 4',
+    render: renderPuzzle4,
+    fact:'Sequencing is how our brain organises stories and plans 🌸'
+  },
+  {
+    level:5, lvClass:'lv5', label:'Level 5',
+    instruction:'🃏 Flip the cards and find the matching pairs!',
+    render: renderPuzzle5,
+    fact:'Memory games literally strengthen your hippocampus — the brain\'s memory center! 🌟'
+  }
+];
+
+let puzzleIdx = 0, puzzleXPEarned = 0, puzzleDone = false;
+
+function startPuzzleModule(){
+  puzzleIdx = 0; puzzleXPEarned = 0; puzzleDone = false;
+  openSkillModule('puzzleModule');
+  document.getElementById('puzzleComplete').style.display='none';
+  document.getElementById('puzzleNextBtn').style.display='none';
+  renderPuzzle();
+}
+
+function renderPuzzle(){
+  const p = puzzles[puzzleIdx];
+  document.getElementById('puzzleQNum').textContent = `Puzzle ${puzzleIdx+1} of 5`;
+  document.getElementById('puzzleBarFill').style.width = (puzzleIdx/5*100)+'%';
+  const lb = document.getElementById('puzzleLevel');
+  lb.textContent = p.label;
+  lb.className = 'iq-level-badge '+p.lvClass;
+  document.getElementById('puzzleXP').textContent='⭐ '+puzzleXPEarned+' XP';
+  document.getElementById('puzzleInstruction').textContent = p.instruction;
+  document.getElementById('puzzleFunFact').style.display='none';
+  document.getElementById('puzzleNextBtn').style.display='none';
+  p.render();
+}
+
+function puzzleMarkDone(){
+  puzzleXPEarned += 15;
+  document.getElementById('puzzleXP').textContent='⭐ '+puzzleXPEarned+' XP';
+  const xpEl=document.getElementById('puzzleXP');
+  xpEl.classList.remove('pop');void xpEl.offsetWidth;xpEl.classList.add('pop');
+  addGlobalXP(15);
+  const ff=document.getElementById('puzzleFunFact');
+  ff.textContent=puzzles[puzzleIdx].fact;
+  ff.style.display='block';
+  document.getElementById('puzzleNextBtn').style.display='inline-block';
+}
+
+function puzzleNext(){
+  puzzleIdx++;
+  if(puzzleIdx < puzzles.length){
+    renderPuzzle();
+  } else {
+    document.getElementById('puzzleBarFill').style.width='100%';
+    document.getElementById('puzzleFunFact').style.display='none';
+    document.getElementById('puzzleNextBtn').style.display='none';
+    document.getElementById('puzzleInstruction').textContent='';
+    document.getElementById('puzzleArea').innerHTML='';
+    document.getElementById('puzzleXPEarned').textContent='🎉 You earned '+puzzleXPEarned+' XP this session!';
+    document.getElementById('puzzleComplete').style.display='block';
+    puzzleCompleted = true;
+    spawnIQConfetti();
+  }
+}
+
+/* ── Puzzle 1 — Odd Shape Out ── */
+function renderPuzzle1(){
+  const area=document.getElementById('puzzleArea');
+  const shapes=[
+    {cls:'circle',lbl:''},
+    {cls:'circle',lbl:''},
+    {cls:'square',lbl:''},
+    {cls:'circle',lbl:''},
+    {cls:'circle',lbl:''}
+  ];
+  area.innerHTML=`<div class="iq-shape-row">${shapes.map((s,i)=>
+    `<div class="iq-shape ${s.cls}" id="shape${i}" onclick="pickShape(${i},${s.cls==='square'})">${s.lbl}</div>`
+  ).join('')}</div>`;
+}
+function pickShape(i, isOdd){
+  const shapes=document.querySelectorAll('.iq-shape');
+  if(isOdd){
+    shapes[i].classList.add('correct-pick');
+    shapes.forEach((s,j)=>{if(j!==i)s.classList.add('dim');});
+    puzzleMarkDone();
+    spawnConfetti(shapes[i]);
+  } else {
+    shapes[i].classList.add('wrong-pick');
+    setTimeout(()=>shapes[i].classList.remove('wrong-pick'),600);
+    showToast('Look for the shape that\'s different!');
+  }
+}
+
+/* ── Puzzle 2 — Emoji Pattern ── */
+function renderPuzzle2(){
+  const area=document.getElementById('puzzleArea');
+  const seq=['🌞','🌙','🌞','🌙','🌞'];
+  area.innerHTML=`
+    <div class="iq-emoji-row">
+      ${seq.map(e=>`<div class="iq-emoji-tile">${e}</div>`).join('')}
+      <div class="iq-emoji-tile blank" id="patBlank">?</div>
+    </div>
+    <div class="iq-emoji-opts">
+      ${['🌙','🌞','⭐','🌈'].map((e,i)=>`<div class="iq-emoji-opt" onclick="pickEmoji('${e}',${i===0})">${e}</div>`).join('')}
+    </div>`;
+}
+function pickEmoji(e, isCorrect){
+  if(isCorrect){
+    const blank=document.getElementById('patBlank');
+    blank.classList.remove('blank');
+    blank.textContent=e;
+    blank.classList.add('filled');
+    puzzleMarkDone();
+    spawnConfetti(blank);
+  } else {
+    showToast('Think about what comes after 🌞...');
+  }
+}
+
+/* ── Puzzle 3 — Shadow Match ── */
+const shadowData=[
+  {id:'star',  emoji:'⭐', shadow:'★'},
+  {id:'heart', emoji:'❤️', shadow:'♥'},
+  {id:'tri',   emoji:'🔺', shadow:'▲'}
+];
+let selectedShape3=null, matchedCount3=0;
+function renderPuzzle3(){
+  const area=document.getElementById('puzzleArea');
+  const shuffledShadows=[...shadowData].sort(()=>Math.random()-.5);
+  area.innerHTML=`
+    <div class="iq-match-row" id="shapeRow3">
+      ${shadowData.map(s=>`<div class="iq-match-tile" id="sh_${s.id}" data-id="${s.id}" onclick="pickShapeM('${s.id}')">${s.emoji}</div>`).join('')}
+    </div>
+    <div class="iq-match-divider"></div>
+    <div class="iq-match-row" id="shadowRow3">
+      ${shuffledShadows.map(s=>`<div class="iq-match-tile shadow" id="sdw_${s.id}" data-id="${s.id}" onclick="pickShadowM('${s.id}')">${s.shadow}</div>`).join('')}
+    </div>`;
+  selectedShape3=null; matchedCount3=0;
+}
+function pickShapeM(id){
+  document.querySelectorAll('#shapeRow3 .iq-match-tile').forEach(t=>t.classList.remove('selected'));
+  const el=document.getElementById('sh_'+id);
+  if(!el.classList.contains('matched')){ el.classList.add('selected'); selectedShape3=id; }
+}
+function pickShadowM(id){
+  if(!selectedShape3) return;
+  const shadowEl=document.getElementById('sdw_'+id);
+  if(shadowEl.classList.contains('matched')) return;
+  if(id===selectedShape3){
+    document.getElementById('sh_'+id).classList.remove('selected'); document.getElementById('sh_'+id).classList.add('matched');
+    shadowEl.classList.add('matched');
+    matchedCount3++;
+    selectedShape3=null;
+    if(matchedCount3===3){ puzzleMarkDone(); spawnIQConfetti(); }
+  } else {
+    shadowEl.classList.add('wrong-pick'); setTimeout(()=>shadowEl.classList.remove('wrong-pick'),600);
+    document.querySelector('#shapeRow3 .selected')?.classList.remove('selected');
+    selectedShape3=null;
+    showToast('Not quite — try another shadow!');
+  }
+}
+
+/* ── Puzzle 4 — Sequence Order ── */
+const seqItems=[
+  {id:0,emoji:'🌱',label:'Seed in soil',correct:1},
+  {id:1,emoji:'💧',label:'Water the plant',correct:2},
+  {id:2,emoji:'🌿',label:'Sprout grows',correct:3},
+  {id:3,emoji:'🌸',label:'Full flower',correct:4}
+];
+let seqTapOrder=[], seqDone=false;
+function renderPuzzle4(){
+  seqTapOrder=[]; seqDone=false;
+  const shuffled=[...seqItems].sort(()=>Math.random()-.5);
+  const area=document.getElementById('puzzleArea');
+  area.innerHTML=`<div class="iq-seq-row">${shuffled.map(s=>
+    `<div class="iq-seq-tile" id="seq${s.id}" onclick="tapSeq(${s.id},${s.correct})">
+      ${s.emoji}
+      <span class="seq-num" id="seqnum${s.id}" style="display:none"></span>
+    </div>`
+  ).join('')}</div><div id="seqMsg" style="font-size:13px;color:var(--muted);margin-top:8px;text-align:center"></div>`;
+}
+function tapSeq(id,correct){
+  if(seqDone) return;
+  const tile=document.getElementById('seq'+id);
+  if(tile.classList.contains('numbered')) return;
+  const n=seqTapOrder.length+1;
+  seqTapOrder.push({id,correct,n});
+  tile.classList.add('numbered');
+  document.getElementById('seqnum'+id).textContent=n;
+  document.getElementById('seqnum'+id).style.display='block';
+  if(seqTapOrder.length===4){
+    seqDone=true;
+    const isRight=seqTapOrder.every(s=>s.n===s.correct);
+    if(isRight){
+      document.querySelectorAll('.iq-seq-tile').forEach(t=>t.classList.add('completed'));
+      puzzleMarkDone(); spawnIQConfetti();
+    } else {
+      document.getElementById('seqMsg').textContent='Almost! Think about the order a plant grows. Tap Reset to try again.';
+      setTimeout(()=>{ seqTapOrder=[]; seqDone=false; document.querySelectorAll('.iq-seq-tile').forEach(t=>{t.classList.remove('numbered');const n=t.querySelector('.seq-num');if(n)n.style.display='none';}); document.getElementById('seqMsg').textContent=''; }, 2000);
+    }
+  }
+}
+
+/* ── Puzzle 5 — Memory Flip ── */
+const flipEmojis=['🦁','🐘','🦋','🐬','🌈','🎯'];
+let flipCards=[], flipFirst=null, flipLock=false, flipMatched=0;
+function renderPuzzle5(){
+  flipFirst=null; flipLock=false; flipMatched=0;
+  const deck=[...flipEmojis,...flipEmojis].sort(()=>Math.random()-.5);
+  flipCards=deck.map((e,i)=>({emoji:e,idx:i,matched:false}));
+  const area=document.getElementById('puzzleArea');
+  area.innerHTML=`
+    <div class="iq-match-count" id="matchCount">Matched: 0 / 6</div>
+    <div class="iq-flip-grid">
+      ${deck.map((e,i)=>`
+        <div class="iq-flip-card" id="fc${i}" onclick="flipCard(${i})">
+          <div class="iq-flip-inner">
+            <div class="iq-flip-front">?</div>
+            <div class="iq-flip-back">${e}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+function flipCard(i){
+  if(flipLock) return;
+  const cardEl=document.getElementById('fc'+i);
+  if(cardEl.classList.contains('flipped')||cardEl.classList.contains('matched')) return;
+  cardEl.classList.add('flipped');
+  if(!flipFirst){
+    flipFirst=i;
+  } else {
+    flipLock=true;
+    const a=flipFirst, b=i;
+    flipFirst=null;
+    if(flipCards[a].emoji===flipCards[b].emoji){
+      document.getElementById('fc'+a).classList.add('matched');
+      document.getElementById('fc'+b).classList.add('matched');
+      flipMatched++;
+      document.getElementById('matchCount').textContent='Matched: '+flipMatched+' / 6';
+      spawnConfetti(document.getElementById('fc'+a));
+      flipLock=false;
+      if(flipMatched===6){ puzzleMarkDone(); spawnIQConfetti(); }
+    } else {
+      setTimeout(()=>{
+        document.getElementById('fc'+a).classList.remove('flipped');
+        document.getElementById('fc'+b).classList.remove('flipped');
+        flipLock=false;
+      },1000);
+    }
+  }
+}
+
+/* ── Wire skill cards to modules ── */
+// Override openSkill for 'puzzles' and 'reasoning' to launch modules
+const _origOpenSkill = openSkill;
+window.openSkill = function(id){
+  if(id==='puzzles'){ startPuzzleModule(); return; }
+  if(id==='reasoning'){ startMathModule(); return; }
+  _origOpenSkill(id);
+};
