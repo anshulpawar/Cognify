@@ -1011,11 +1011,299 @@ function flipCard(i){
   }
 }
 
+/* ════════════════════════════════════════
+   MATCH THE CARD MODULE
+════════════════════════════════════════ */
+const matchRounds = [
+  { level: 1, lvClass:'', label: 'Level 1', time: 60, pairs: ['🐶','🐱','🐸','🐭'] },
+  { level: 2, lvClass:'lv2', label: 'Level 2', time: 75, pairs: ['🍕','🍦','🍩','🍓','🌮','🥑'] },
+  { level: 3, lvClass:'lv3', label: 'Level 3', time: 90, pairs: ['⚽','🎸','🚀','🌈','🎯','🦋','🔥','💎'] },
+  { level: 4, lvClass:'lv4', label: 'Level 4', time: 120, pairs: ['🧠','🌙','🎭','🦁','🌺','🎪','🔮','🎨','🏆','⚡'] }
+];
+
+let matchIdx = 0, matchXPEarned = 0, matchDone = false;
+let matchCards = [], matchFirst = null, matchLock = false, matchCount = 0;
+let matchTimerInterval = null, matchTimeLeft = 0;
+
+function startMatchModule(){
+  matchIdx = 0; matchXPEarned = 0; matchDone = false;
+  openSkillModule('matchModule');
+  document.getElementById('matchComplete').style.display='none';
+  document.getElementById('matchNextBtn').style.display='none';
+  renderMatchRound();
+}
+
+function renderMatchRound(){
+  clearInterval(matchTimerInterval);
+  const r = matchRounds[matchIdx];
+  document.getElementById('matchQNum').textContent = `Round ${matchIdx+1} of 4`;
+  document.getElementById('matchBarFill').style.width = (matchIdx/4*100)+'%';
+  
+  const lb = document.getElementById('matchLevel');
+  lb.textContent = r.label;
+  lb.className = 'iq-level-badge ' + r.lvClass;
+  document.getElementById('matchXP').textContent='⭐ '+matchXPEarned+' XP';
+  
+  let gridClass = 'match-grid-2x4';
+  if(r.level === 2) gridClass = 'match-grid-3x4';
+  if(r.level === 3) gridClass = 'match-grid-4x4';
+  if(r.level === 4) gridClass = 'match-grid-4x5';
+
+  const deck = [...r.pairs, ...r.pairs].sort(()=>Math.random()-0.5);
+  matchCards = deck.map((e,i)=>({ emoji:e, idx:i, matched:false }));
+  matchFirst = null; matchLock = false; matchCount = 0;
+  
+  document.getElementById('matchPairCount').textContent = `Matched: 0 / ${r.pairs.length}`;
+  
+  const area = document.getElementById('matchArea');
+  area.innerHTML = `
+    <div class="iq-flip-grid ${gridClass}">
+      ${deck.map((e,i)=>`
+        <div class="iq-flip-card-match" id="mc${i}" onclick="flipMatchCard(${i})">
+          <div class="iq-flip-inner-match">
+            <div class="iq-flip-front-match">C</div>
+            <div class="iq-flip-back-match">${e}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+  
+  matchTimeLeft = r.time;
+  updateMatchTimerDisplay();
+  matchTimerInterval = setInterval(()=>{
+    matchTimeLeft--;
+    updateMatchTimerDisplay();
+    if(matchTimeLeft <= 0){
+      clearInterval(matchTimerInterval);
+      handleMatchTimeout();
+    }
+  }, 1000);
+}
+
+function updateMatchTimerDisplay(){
+  document.getElementById('matchTimer').textContent = `⏳ ${matchTimeLeft}s`;
+}
+
+function handleMatchTimeout(){
+  matchLock = true;
+  document.getElementById('matchCompleteTitle').textContent = "Time's Up!";
+  matchRoundOver();
+}
+
+function flipMatchCard(i){
+  if(matchLock) return;
+  const cardEl = document.getElementById('mc'+i);
+  if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+  
+  cardEl.classList.add('flipped');
+  
+  if(matchFirst === null){
+    matchFirst = i;
+  } else {
+    matchLock = true;
+    const a = matchFirst, b = i;
+    matchFirst = null;
+    
+    if(matchCards[a].emoji === matchCards[b].emoji){
+      document.getElementById('mc'+a).classList.add('matched');
+      document.getElementById('mc'+b).classList.add('matched');
+      matchCards[a].matched = true; matchCards[b].matched = true;
+      matchCount++;
+      document.getElementById('matchPairCount').textContent = `Matched: ${matchCount} / ${matchRounds[matchIdx].pairs.length}`;
+      spawnConfetti(cardEl);
+      
+      if(matchCount === matchRounds[matchIdx].pairs.length){
+        clearInterval(matchTimerInterval);
+        setTimeout(matchRoundOver, 600);
+      } else {
+        matchLock = false;
+      }
+    } else {
+      document.getElementById('mc'+a).classList.add('wrong-match');
+      document.getElementById('mc'+b).classList.add('wrong-match');
+      setTimeout(()=>{
+        document.getElementById('mc'+a).classList.remove('flipped', 'wrong-match');
+        document.getElementById('mc'+b).classList.remove('flipped', 'wrong-match');
+        matchLock = false;
+      }, 900);
+    }
+  }
+}
+
+function matchRoundOver(){
+  const xpGain = matchCount * 5; 
+  matchXPEarned += xpGain;
+  document.getElementById('matchXP').textContent='⭐ '+matchXPEarned+' XP';
+  addGlobalXP(xpGain);
+  
+  document.getElementById('matchNextBtn').style.display='inline-block';
+  if(matchCount === matchRounds[matchIdx].pairs.length){
+     document.getElementById('matchInstruction').textContent = "Round Compete! Great visual memory!";
+     spawnIQConfetti();
+  } else {
+     document.getElementById('matchInstruction').textContent = "Round Over! Try to remember faster next time.";
+  }
+}
+
+function matchNext(){
+  matchIdx++;
+  if(matchIdx < matchRounds.length){
+    document.getElementById('matchNextBtn').style.display='none';
+    document.getElementById('matchInstruction').textContent = "";
+    document.getElementById('matchCompleteTitle').textContent = "Round Complete!";
+    renderMatchRound();
+  } else {
+    document.getElementById('matchBarFill').style.width='100%';
+    document.getElementById('matchNextBtn').style.display='none';
+    document.getElementById('matchTimer').textContent = "";
+    document.getElementById('matchPairCount').textContent = "";
+    document.getElementById('matchArea').innerHTML='';
+    document.getElementById('matchXPEarned').textContent='🎉 You earned '+matchXPEarned+' XP total in Match the Card!';
+    document.getElementById('matchCompleteTitle').textContent = "Champion Round Complete!";
+    document.getElementById('matchInstruction').textContent = "";
+    document.getElementById('matchComplete').style.display='block';
+    spawnIQConfetti();
+  }
+}
+
+/* ════════════════════════════════════════
+   WORD RECALL MODULE
+════════════════════════════════════════ */
+const wrRounds = [
+  { level: 1, lvClass:'', label: 'Level 1', time: 10, words: ['SUN','CAT','BALL'], distractors: ['MOON','DOG','TREE'], fact: 'Short-term memory can hold about 7 items — you\'re training yours! 🌟' },
+  { level: 2, lvClass:'lv2', label: 'Level 2', time: 12, words: ['RIVER','CLOUD','BREAD','HORSE'], distractors: ['OCEAN','RAIN','CAKE','COW'], fact: 'Repeating words in your mind during study helps memory stick! 💡' },
+  { level: 3, lvClass:'lv3', label: 'Level 3', time: 15, words: ['CASTLE','LANTERN','COMPASS','WHISPER','CRYSTAL'], distractors: ['TOWER','CANDLE','MAP','SECRET','DIAMOND'], fact: 'Focus helps the brain remember faster — notice the details! 🎨' },
+  { level: 4, lvClass:'lv4', label: 'Level 4', time: 18, words: ['NEBULA','PHANTOM','LANTERN','MIRAGE','THUNDER','SOLSTICE'], distractors: ['GALAXY','SHADOW','CANDLE','ILLUSION','LIGHTNING','ECLIPSE'], fact: 'You just trained your working memory — the brain\'s mental sticky note! 🧠✨' }
+];
+
+let wrIdx = 0, wrXPEarned = 0, wrStudyTimer = null, wrTimeLeft = 0;
+let wrSelected = [], wrCorrectCount = 0;
+
+function startWordRecallModule(){
+  wrIdx = 0; wrXPEarned = 0;
+  openSkillModule('wordrecallModule');
+  document.getElementById('wrComplete').style.display='none';
+  document.getElementById('wrNextBtn').style.display='none';
+  renderWRStudy();
+}
+
+function renderWRStudy(){
+  const r = wrRounds[wrIdx];
+  document.getElementById('wrQNum').textContent = `Round ${wrIdx+1} of 4`;
+  document.getElementById('wrBarFill').style.width = (wrIdx/4*100)+'%';
+  
+  const lb = document.getElementById('wrLevel');
+  lb.textContent = r.label;
+  lb.className = 'iq-level-badge ' + r.lvClass;
+  document.getElementById('wrXP').textContent='⭐ '+wrXPEarned+' XP';
+  
+  document.getElementById('wrPhaseStudy').style.display = 'block';
+  document.getElementById('wrPhaseRecall').style.display = 'none';
+  document.getElementById('wrFunFact').style.display = 'none';
+  document.getElementById('wrNextBtn').style.display = 'none';
+  
+  const area = document.getElementById('wrStudyArea');
+  area.innerHTML = r.words.map((w,i)=>`<div class="word-pill study-mode" style="animation-delay:${i*0.15}s">${w}</div>`).join('');
+  
+  wrTimeLeft = r.time;
+  document.getElementById('wrStudyTimer').textContent = `⏳ ${wrTimeLeft}s left to study`;
+  
+  clearInterval(wrStudyTimer);
+  wrStudyTimer = setInterval(()=>{
+    wrTimeLeft--;
+    document.getElementById('wrStudyTimer').textContent = `⏳ ${wrTimeLeft}s left to study`;
+    if(wrTimeLeft <= 0){
+      clearInterval(wrStudyTimer);
+      startWRRecall();
+    }
+  }, 1000);
+}
+
+function startWRRecall(){
+  document.getElementById('wrPhaseStudy').style.display = 'none';
+  document.getElementById('wrPhaseRecall').style.display = 'block';
+  wrSelected = [];
+  wrCorrectCount = 0;
+  
+  const r = wrRounds[wrIdx];
+  const allWords = [...r.words, ...r.distractors].sort(()=>Math.random()-0.5);
+  
+  const area = document.getElementById('wrRecallArea');
+  area.innerHTML = allWords.map((w,i)=>`<div class="word-pill recall-opt" id="wropt${i}" onclick="selectWRWord(${i}, '${w}', ${r.words.includes(w)})">${w}</div>`).join('');
+}
+
+function selectWRWord(i, word, isCorrect){
+  const el = document.getElementById('wropt'+i);
+  if(el.classList.contains('recall-selected')) return;
+  
+  el.classList.add('recall-selected');
+  wrSelected.push(word);
+  
+  if(isCorrect){
+    el.classList.add('correct');
+    wrCorrectCount++;
+    addGlobalXP(5);
+    wrXPEarned += 5;
+    document.getElementById('wrXP').textContent='⭐ '+wrXPEarned+' XP';
+    spawnConfetti(el);
+  } else {
+    el.classList.add('wrong');
+  }
+  
+  const r = wrRounds[wrIdx];
+  if(wrSelected.length >= r.words.length){
+    finishWRRound();
+  }
+}
+
+function finishWRRound(){
+  const r = wrRounds[wrIdx];
+  const allOpts = document.querySelectorAll('.recall-opt');
+  allOpts.forEach(el => {
+    el.style.pointerEvents = 'none';
+    const text = el.textContent;
+    if(r.words.includes(text) && !el.classList.contains('correct')){
+        el.classList.add('missed');
+    }
+  });
+  
+  const ff = document.getElementById('wrFunFact');
+  ff.textContent = r.fact;
+  ff.style.display = 'block';
+  
+  document.getElementById('wrNextBtn').style.display = 'inline-block';
+  
+  if(wrCorrectCount === r.words.length){
+      addGlobalXP(20);
+      wrXPEarned += 20;
+      document.getElementById('wrXP').textContent='⭐ '+wrXPEarned+' XP';
+      spawnIQConfetti();
+  }
+}
+
+function wrNext(){
+  wrIdx++;
+  if(wrIdx < wrRounds.length){
+    renderWRStudy();
+  } else {
+    document.getElementById('wrBarFill').style.width='100%';
+    document.getElementById('wrPhaseStudy').style.display = 'none';
+    document.getElementById('wrPhaseRecall').style.display = 'none';
+    document.getElementById('wrFunFact').style.display = 'none';
+    document.getElementById('wrNextBtn').style.display = 'none';
+    
+    document.getElementById('wrXPEarned').textContent='🎉 You earned '+wrXPEarned+' XP total in Word Recall!';
+    document.getElementById('wrComplete').style.display='block';
+    spawnIQConfetti();
+  }
+}
+
 /* ── Wire skill cards to modules ── */
 // Override openSkill for 'puzzles' and 'reasoning' to launch modules
 const _origOpenSkill = openSkill;
 window.openSkill = function(id){
   if(id==='puzzles'){ startPuzzleModule(); return; }
   if(id==='reasoning'){ startMathModule(); return; }
+  if(id==='matchcard'){ startMatchModule(); return; }
+  if(id==='wordrecall'){ startWordRecallModule(); return; }
   _origOpenSkill(id);
 };
