@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -392,6 +392,78 @@
           <button class="iq-next-btn" onclick="closeModule('puzzleModule')">Back to Skills 🎉</button>
         </div>
         <button class="iq-close-btn" onclick="closeModule('puzzleModule')">✕ Close</button>
+      </div>
+    </div>
+
+    <!-- ═══ MATCH THE CARD MODULE ═══ -->
+    <div class="iq-module" id="matchModule">
+      <div class="iq-module-inner">
+        <div class="iq-topbar">
+          <div class="iq-meta">
+            <span class="iq-qnum" id="matchQNum">Round 1 of 4</span>
+            <div class="iq-bar-wrap"><div class="iq-bar-fill" id="matchBarFill" style="width:0%"></div></div>
+          </div>
+          <div class="iq-right">
+            <span class="iq-level-badge" id="matchLevel">Level 1</span>
+            <div class="iq-xp" id="matchXP">⭐ 0 XP</div>
+          </div>
+        </div>
+        <div class="iq-instruction" id="matchInstruction"></div>
+        <div style="font-size: 14px; color: var(--gold); margin-bottom: 15px; font-weight: bold;" id="matchTimer">⏳ 60s</div>
+        <div class="iq-match-count" id="matchPairCount" style="margin-bottom: 10px;">Matched: 0 / 4</div>
+        <div class="iq-puzzle-area" id="matchArea"></div>
+        <div style="text-align:center;margin-top:20px">
+          <button class="iq-next-btn gold" id="matchNextBtn" onclick="matchNext()" style="display:none">Next Round →</button>
+        </div>
+        <div class="iq-complete" id="matchComplete" style="display:none">
+          <div class="iq-complete-badge">🃏</div>
+          <div class="iq-complete-title" id="matchCompleteTitle">Champion Round Complete!</div>
+          <div class="iq-complete-sub" id="matchXPEarned"></div>
+          <button class="iq-next-btn" onclick="closeModule('matchModule')">Back to Skills 🎉</button>
+        </div>
+        <button class="iq-close-btn" onclick="closeModule('matchModule')">✕ Close</button>
+      </div>
+    </div>
+
+    <!-- ═══ WORD RECALL MODULE ═══ -->
+    <div class="iq-module" id="wordrecallModule">
+      <div class="iq-module-inner">
+        <div class="iq-topbar">
+          <div class="iq-meta">
+            <span class="iq-qnum" id="wrQNum">Round 1 of 4</span>
+            <div class="iq-bar-wrap"><div class="iq-bar-fill" id="wrBarFill" style="width:0%"></div></div>
+          </div>
+          <div class="iq-right">
+            <span class="iq-level-badge" id="wrLevel">Level 1</span>
+            <div class="iq-xp" id="wrXP">⭐ 0 XP</div>
+          </div>
+        </div>
+        
+        <!-- PHASE 1: STUDY PHASE -->
+        <div id="wrPhaseStudy">
+          <div class="iq-instruction" id="wrStudyInstruction">Study these words carefully...</div>
+          <div style="font-size: 14px; color: var(--gold); margin-bottom: 15px; font-weight: bold;" id="wrStudyTimer">⏳ 10s</div>
+          <div class="iq-puzzle-area word-study-area" id="wrStudyArea"></div>
+        </div>
+
+        <!-- PHASE 2: RECALL PHASE -->
+        <div id="wrPhaseRecall" style="display:none">
+          <div class="iq-instruction" id="wrRecallInstruction">Tap all the words you remember!</div>
+          <div class="iq-puzzle-area word-recall-area" id="wrRecallArea"></div>
+        </div>
+
+        <div class="iq-funfact" id="wrFunFact" style="display:none"></div>
+        <div style="text-align:center;margin-top:20px">
+          <button class="iq-next-btn" id="wrNextBtn" onclick="wrNext()" style="display:none">Next Round →</button>
+        </div>
+        
+        <div class="iq-complete" id="wrComplete" style="display:none">
+          <div class="iq-complete-badge">📝</div>
+          <div class="iq-complete-title">Word Recall Complete!</div>
+          <div class="iq-complete-sub" id="wrXPEarned"></div>
+          <button class="iq-next-btn" onclick="closeModule('wordrecallModule')">Back to Skills 🎉</button>
+        </div>
+        <button class="iq-close-btn" onclick="closeModule('wordrecallModule')">✕ Close</button>
       </div>
     </div>
 
