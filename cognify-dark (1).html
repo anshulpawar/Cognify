@@ -483,7 +483,6 @@
     <div class="tab-row">
       <button class="tab-pill on" onclick="switchTab('flashcards',this)">📇 Flashcards</button>
       <button class="tab-pill" onclick="switchTab('quiz',this)">⚡ Quiz</button>
-      <button class="tab-pill" onclick="switchTab('memory',this)">🧠 Memory Games</button>
     </div>
 
     <!-- FLASHCARDS -->
@@ -567,45 +566,7 @@
       </div>
     </div>
 
-    <!-- MEMORY GAMES -->
-    <div class="prac-sec" id="tab-memory">
 
-      <!-- Pattern -->
-      <div class="game-card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <div class="game-title">🔵 Pattern Memory</div>
-          <span class="badge badge-cyan" id="patLevel">Level 1</span>
-        </div>
-        <div class="game-desc">Watch the tiles light up. Then tap them in the same order!</div>
-        <div class="pattern-grid" id="patGrid"></div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" onclick="startPattern()" id="patBtn">▶ Start</button>
-          <span style="font-size:13px;color:var(--muted)">Score: <strong id="patScore" style="color:var(--cyan)">0</strong></span>
-        </div>
-        <div class="feedback-panel" id="patFeedback" style="margin-top:12px"></div>
-      </div>
-
-      <!-- Word Recall -->
-      <div class="game-card">
-        <div class="game-title">📝 Word Recall</div>
-        <div class="game-desc">Study 5 words. Then type the ones you remember!</div>
-        <div id="wrStudy">
-          <div class="word-recall-tiles" id="wrList"></div>
-          <button class="btn btn-primary btn-sm" onclick="startWordRecall()">▶ Study Words</button>
-        </div>
-        <div id="wrRecall" style="display:none">
-          <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Type the words you remember:</div>
-          <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-            <input class="form-input" id="wrInput" placeholder="Type a word..." style="flex:1;min-width:130px;padding:12px 14px"/>
-            <button class="btn btn-primary btn-sm" onclick="addWord()">Add ✓</button>
-          </div>
-          <div id="wrAnswers" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"></div>
-          <button class="btn btn-outline btn-sm" onclick="checkWords()">Check My Memory 🧠</button>
-        </div>
-        <div class="feedback-panel" id="wrFeedback"></div>
-      </div>
-
-    </div>
   </div>
 </div>
 
