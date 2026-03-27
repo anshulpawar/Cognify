@@ -16,7 +16,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 async function callGemini(systemPrompt, userText) {
   const model = genAI.getGenerativeModel({
-    model: 'gemini-flash-latest',
+    model: 'gemini-2.5-flash',
     systemInstruction: systemPrompt,
   });
   const result = await model.generateContent({
@@ -28,7 +28,7 @@ async function callGemini(systemPrompt, userText) {
 
 async function callGeminiWithImage(systemPrompt, userText, base64Image, mimeType) {
   const model = genAI.getGenerativeModel({
-    model: 'gemini-flash-latest',
+    model: 'gemini-2.5-flash',
     systemInstruction: systemPrompt,
   });
   const result = await model.generateContent({
@@ -311,6 +311,9 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Cognify AI backend running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Cognify AI backend running on http://localhost:${PORT}`);
+  });
+}
+module.exports = app;

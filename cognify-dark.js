@@ -244,18 +244,18 @@ async function askAI(type){
   loading.style.display='flex';resp.style.display='none';
 
   try {
-    let endpoint = 'http://localhost:3000/api/explain';
+    let endpoint = '/api/explain';
     let options = { method: 'POST' };
 
     if (mode === 'image') {
-      endpoint = 'http://localhost:3000/api/image-explain';
+      endpoint = '/api/image-explain';
       const file = document.getElementById('imgFile').files[0];
       if (!file) throw new Error("Please select an image first.");
       const formData = new FormData();
       formData.append('image', file);
       options.body = formData;
     } else if (mode === 'file') {
-      endpoint = 'http://localhost:3000/api/file-explain';
+      endpoint = '/api/file-explain';
       const file = document.getElementById('docFile').files[0];
       if (!file) throw new Error("Please select a file first.");
       const formData = new FormData();
@@ -265,15 +265,15 @@ async function askAI(type){
       const input = getInput() || 'How does memory work?';
       
       if (mode === 'voice' && type === 'explain') {
-          endpoint = 'http://localhost:3000/api/voice-explain';
+          endpoint = '/api/voice-explain';
           options.headers = { 'Content-Type': 'application/json' };
           options.body = JSON.stringify({ transcript: input });
       } else {
-          if (type === 'explain' || type === 'ask') endpoint = 'http://localhost:3000/api/explain';
-          else if (type === 'shorten') endpoint = 'http://localhost:3000/api/shorten';
-          else if (type === 'example') endpoint = 'http://localhost:3000/api/example';
-          else if (type === 'quiz') endpoint = 'http://localhost:3000/api/quiz';
-          else if (type === 'flashcard') endpoint = 'http://localhost:3000/api/flashcard';
+          if (type === 'explain' || type === 'ask') endpoint = '/api/explain';
+          else if (type === 'shorten') endpoint = '/api/shorten';
+          else if (type === 'example') endpoint = '/api/example';
+          else if (type === 'quiz') endpoint = '/api/quiz';
+          else if (type === 'flashcard') endpoint = '/api/flashcard';
 
           options.headers = { 'Content-Type': 'application/json' };
           options.body = JSON.stringify({ topic: input });
